@@ -1,0 +1,69 @@
+# --- Sistema Operacional & Arquivos Gerais ---
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+*.log
+*.tmp
+*.bak
+
+# --- Segurança (CRÍTICO) ---
+# Jamais versionar chaves SSH privadas
+.ssh/id_rsa
+.ssh/id_ed25519
+*.pem
+*.key
+*.p12
+
+# Arquivos de histórico (evita vazar comandos com senhas)
+.bash_history
+.zsh_history
+.lesshst
+.python_history
+.node_repl_history
+
+# Tokens e Segredos
+.env
+.env.local
+.netrc
+_netrc
+
+# Arquivo de configuração privada (Explico abaixo)
+*.local
+*.private
+*.secret
+zshrc_private
+bashrc_private
+
+# --- Neovim / Vim ---
+# Sessões e logs que não devem ser sincronizados
+Session.vim
+.nvimlog
+# Pasta de undo persistente (pode ficar gigante e conter dados sensíveis)
+nvim/**/undo/
+# Plugins instalados localmente (se usar gerenciadores que baixam na pasta config)
+nvim/plugin/
+
+# --- Java & Oracle (Caso escape algo para a home) ---
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# --- Flutter / Dart ---
+.dart_tool/
+.packages
+.pub-cache/
+pubspec.lock
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv
+venv/
+
+# --- GNU Stow ---
+# Ignora o arquivo de controle local do Stow, se existir
+.stow-local-ignore
