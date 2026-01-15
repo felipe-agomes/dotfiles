@@ -109,10 +109,51 @@ install_tools() {
     # --- INSTALAÇÃO DO OH MY ZSH ---
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
         echo "Instalando Oh My Zsh..."
+
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    else
+        echo "Oh My Zsh já está instalado."
     fi
 
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+    if [ ! -d "$HOME/.fzf" ]; then
+        echo "Instalando FZF..."
+
+        git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+        "$HOME/.fzf/install" --all
+    else
+        echo "FZF já está instalado."
+    fi
+
+    ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+    if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+        echo "Baixando Powerlevel10k..."
+
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+    else
+        echo "Powerlevel10k já está instalado."
+    fi
+
+    if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+        echo "Baixando zsh-autosuggestions..."
+
+        git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    else
+        echo "zsh-autosuggestions já está instalado."
+    fi
+
+    if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+        echo "Baixando zsh-syntax-highlighting..."
+
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    else
+        echo "zsh-syntax-highlighting já está instalado."
+    fi
+
+    # TODO: Configurar a instalação do node
+    # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+    # \. "$HOME/.nvm/nvm.sh"
+    # nvm install 24
 }
 
 # --- 4. Configuração Final ---
