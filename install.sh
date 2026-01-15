@@ -59,6 +59,7 @@ link_dotfiles() {
     # Adicione aqui conforme for criando pastas (ex: 'alacritty', 'tmux', 'kitty')
     STOW_DIRS=(
         nvim
+        zsh
     )
 
     for dir in "${STOW_DIRS[@]}"; do
@@ -69,7 +70,7 @@ link_dotfiles() {
 }
 
 # --- 3. Ferramentas de Dev (Neovim Oficial & SDKMAN) ---
-install_toools() {
+install_tools() {
     echo -e "${GREEN}Instalando ferramentas de desenvolvimento...${NC}"
 
     # --- INSTALAÇÃO DO NEOVIM (Versão Github Release) ---
@@ -110,6 +111,8 @@ install_toools() {
         echo "Instalando Oh My Zsh..."
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     fi
+
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 }
 
 # --- 4. Configuração Final ---
@@ -124,8 +127,8 @@ setup_shell() {
 # --- Execução ---
 ask_sudo
 install_packages
-# install_tools
-# link_dotfiles
-# setup_shell
+install_tools
+link_dotfiles
+setup_shell
 
 echo -e "${GREEN}Instalação concluída! Reinicie o terminal ou faça logout/login.${NC}"
