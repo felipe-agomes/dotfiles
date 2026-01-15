@@ -10,6 +10,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"xml",
 		"json",
 		"http",
+    "sh"
 	},
 	callback = function()
 		vim.treesitter.language.register("sql", "plsql")

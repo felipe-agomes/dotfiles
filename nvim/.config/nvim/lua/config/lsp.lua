@@ -124,6 +124,11 @@ vim.lsp.config("dart_ls", {
 	on_attach = on_attach,
 })
 
+vim.lsp.config("sh_ls", {
+  cmd = { 'bash-language-server', 'start' },
+  filetypes = { 'bash', 'sh' }
+})
+
 vim.lsp.enable({
 	"java_ls",
 	"sql_ls",
@@ -133,4 +138,5 @@ vim.lsp.enable({
 	"xml_ls",
 	"json_ls",
 	"dart_ls",
+  "sh_ls",
 })
