@@ -21,9 +21,9 @@ return {
 
 				stdin = true,
 			},
-      beautysh = {
-        command = "beautysh"
-      }
+			beautysh = {
+				command = "beautysh",
+			},
 		},
 		formatters_by_ft = {
 			lua = { "stylua" },
@@ -33,6 +33,7 @@ return {
 			json = { "fixjson" },
 			jsonc = { "fixjson" },
 			sh = { "beautysh" },
+			zsh = { "beautysh" },
 		},
 	},
 	keys = {

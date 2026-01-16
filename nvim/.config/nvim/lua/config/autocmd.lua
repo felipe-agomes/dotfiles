@@ -10,16 +10,18 @@ vim.api.nvim_create_autocmd("FileType", {
 		"xml",
 		"json",
 		"http",
-    "sh"
+    "sh",
+    "zsh"
 	},
 	callback = function()
 		vim.treesitter.language.register("sql", "plsql")
+    vim.treesitter.language.register("bash", "zsh")
 		vim.treesitter.start()
 	end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "sql" },
+	pattern = { "sql", "sh", "zsh" },
 	callback = function()
 		vim.bo.tabstop = 4
 		vim.bo.shiftwidth = 4

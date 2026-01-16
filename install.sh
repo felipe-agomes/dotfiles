@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Só para documentação de comandos
 # -d Verifica se uma pasta existe
@@ -18,7 +18,6 @@
 # 2>/dev/null redireciona o STDERR para o limbo
 
 
-DOTFILES_DIR="$HOME/dotfiles"
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
@@ -68,20 +67,17 @@ install_packages() {
 link_dotfiles() {
     echo -e "${GREEN}Aplicando configurações com Stow...${NC}"
 
-    # Entra na pasta dos dotfiles para o stow funcionar corretamente
+    DOTFILES_DIR="$HOME/dotfiles"
     cd "$DOTFILES_DIR" || exit
 
-    # Lista de pastas para aplicar o stow
-    # Adicione aqui conforme for criando pastas (ex: 'alacritty', 'tmux', 'kitty')
     STOW_DIRS=(
         nvim
         zsh
     )
 
     for dir in "${STOW_DIRS[@]}"; do
-        # --restow garante que links antigos sejam atualizados/corrigidos
-        stow --restow "$dir"
-        echo "Configuração linkada: $dir"
+        stow --restow  "$dir"
+        echo -e "${GREEN}Configuração linkada: ${dir}${NC}"
     done
 }
 
@@ -89,7 +85,7 @@ install_tools() {
     echo -e "${GREEN}Instalando ferramentas de desenvolvimento...${NC}"
 
     if ! command -v nvim >/dev/null; then
-        echo "${GREEN}Instalando Neovim...${NC}"
+        echo -e "${GREEN}Instalando Neovim...${NC}"
 
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 
@@ -104,91 +100,111 @@ install_tools() {
 
         rm nvim-linux-x86_64.tar.gz
     else
-        echo "${BLUE}Neovim já está instalado.${NC}"
+        echo -e "${BLUE}Neovim já está instalado.${NC}"
     fi
 
     # --- INSTALAÇÃO DO SDKMAN (Java) ---
     if [ ! -d "$HOME/.sdkman" ]; then
-        echo "${GREEN}Instalando SDKMAN!...${NC}"
+        echo -e "${GREEN}Instalando SDKMAN!...${NC}"
         curl -s "https://get.sdkman.io" | bash
     else
-        echo "${BLUE}SDKMAN! já instalado."
+        echo -e "${BLUE}SDKMAN! já instalado."
     fi
 
     # --- INSTALAÇÃO DO OH MY ZSH ---
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        echo "${GREEN}Instalando Oh My Zsh...${NC}"
+        echo -e "${GREEN}Instalando Oh My Zsh...${NC}"
 
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     else
-        echo "${BLUE}Oh My Zsh já está instalado.${NC}"
+        echo -e "${BLUE}Oh My Zsh já está instalado.${NC}"
     fi
 
     if [ ! -d "$HOME/.fzf" ]; then
-        echo "${GREEN}Instalando FZF...${NC}"
+        echo -e "${GREEN}Instalando FZF...${NC}"
 
         git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
         "$HOME/.fzf/install" --all
     else
-        echo "${BLUE}FZF já está instalado.${NC}"
+        echo -e "${BLUE}FZF já está instalado.${NC}"
     fi
 
     ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
     if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
-        echo "${GREEN}Baixando Powerlevel10k...${NC}"
+        echo -e "${GREEN}Baixando Powerlevel10k...${NC}"
 
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
     else
-        echo "${BLUE}Powerlevel10k já está instalado.${NC}"
+        echo -e "${BLUE}Powerlevel10k já está instalado.${NC}"
     fi
 
     if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-        echo "${GREEN}Baixando zsh-autosuggestions...${NC}"
+        echo -e "${GREEN}Baixando zsh-autosuggestions...${NC}"
 
         git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
     else
-        echo "${BLUE}zsh-autosuggestions já está instalado.${NC}"
+        echo -e "${BLUE}zsh-autosuggestions já está instalado.${NC}"
     fi
 
     if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-        echo "${GREEN}Baixando zsh-syntax-highlighting...${NC}"
+        echo -e "${GREEN}Baixando zsh-syntax-highlighting...${NC}"
 
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
     else
-        echo "${BLUE}zsh-syntax-highlighting já está instalado.${NC}"
+        echo -e "${BLUE}zsh-syntax-highlighting já está instalado.${NC}"
     fi
 
     NVM_DIR="$HOME/.nvm"
     if [ ! -d "$NVM_DIR" ]; then
-        echo "${GREEN}Instalando o NVM...${NC}"
+        echo -e "${GREEN}Instalando o NVM...${NC}"
 
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
     else
-        echo "${BLUE}NVM já está instalado.${NC}"
+        echo -e "${BLUE}NVM já está instalado.${NC}"
     fi
 
-
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    # shellcheck disable=SC1091
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
     if ! nvm ls 24 >/dev/null; then
-        echo "${GREEN}Instalando Node 24...${NC}"
+        echo -e "${GREEN}Instalando Node 24...${NC}"
 
         nvm install 24
-        nvm use 24
         nvm alias default 24
     else
-        echo "${BLUE}Node 24 já está instalado.${NC}"
-
-        nvm use 24 >/dev/null
-        nvm alias default 24 >/dev/null
+        echo -e "${BLUE}Node 24 já está instalado.${NC}"
     fi
+
+    nvm use 24 >/dev/null
 
     FVM_DIR="$HOME/fvm"
     if [ ! -d "$FVM_DIR" ]; then
-        echo "${GREEN}Instalando FVM...${NV}"
+        echo -e "${GREEN}Instalando FVM...${NV}"
 
         curl -fsSL https://fvm.app/install.sh | bash
     else
-        echo "${BLUE}FVM já está instalado."
+        echo -e "${BLUE}FVM já está instalado."
+    fi
+
+    if ! command -v op >/dev/null; then
+        echo -e "${GREEN}Instalando 1password..."
+
+        curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+            sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+
+        echo -e "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" | \
+            sudo tee /etc/apt/sources.list.d/1password.list
+
+        sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/ && \
+            curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+            sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+
+        sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22 && \
+            curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+            sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+
+        sudo apt update && sudo apt install 1password-cli
+    else
+        echo -e "${BLUE}1password já está instalado."
     fi
 }
 
@@ -203,9 +219,9 @@ setup_shell() {
 
 # --- Execução ---
 ask_sudo
-# install_packages
+install_packages
 install_tools
-# link_dotfiles
-# setup_shell
+link_dotfiles
+setup_shell
 
 echo -e "${GREEN}Instalação concluída! Reinicie o terminal ou faça logout/login.${NC}"

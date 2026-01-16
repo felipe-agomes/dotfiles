@@ -126,7 +126,7 @@ vim.lsp.config("dart_ls", {
 
 vim.lsp.config("sh_ls", {
   cmd = { 'bash-language-server', 'start' },
-  filetypes = { 'bash', 'sh' }
+  filetypes = { 'bash', 'sh', 'zsh' }
 })
 
 vim.lsp.enable({
