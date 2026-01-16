@@ -75,6 +75,11 @@ return {
 				end
 			end, { desc = "hunk anterior" })
 
+			map("n", "<leader>ghs", gitsigns.stage_hunk, { desc = "Stage hunk" })
+			map("n", "<leader>ghr", gitsigns.reset_hunk, { desc = "Reset hunk" })
+			map("n", "<leader>ghp", gitsigns.preview_hunk, { desc = "Preview hunk" })
+			map("n", "<leader>ghi", gitsigns.preview_hunk_inline, { desc = "Preview hunk inline" })
+
 			-- Toggles
 			map("n", "<leader>gtb", gitsigns.toggle_current_line_blame, { desc = "toggle blame da linha" })
 		end,

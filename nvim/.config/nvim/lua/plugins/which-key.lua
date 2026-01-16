@@ -17,6 +17,7 @@ return {
 				{ "<leader>g", group = "git" },
 				{ "<leader>i", group = "inspect" },
 				{ "<leader>gt", group = "toggles" },
+				{ "<leader>gh", group = "hunks" },
 				{ "<leader>s", group = "search" },
 				{ "<leader>u", group = "ui" },
 				{ "<leader>x", group = "diagnostics/quickfix" },

@@ -14,7 +14,16 @@ return {
 			enabled = true,
 			timeout = 3000,
 		},
-		picker = { enabled = true },
+		picker = {
+			enabled = true,
+			win = {
+				input = {
+					keys = {
+						["<A-l>"] = { "focus_preview", mode = { "i", "n" } },
+					},
+				},
+			},
+		},
 		quickfile = { enabled = true },
 		scope = { enabled = true },
 		scroll = { enabled = true },
