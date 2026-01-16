@@ -18,14 +18,10 @@
 # 2>/dev/null redireciona o STDERR para o limbo
 
 
-# --- Configurações Iniciais ---
 DOTFILES_DIR="$HOME/dotfiles"
-# Cores para logs bonitos
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-export NVM_DIR="$HOME/.nvm"
+NC='\033[0m'
 
 echo -e "${BLUE}Iniciando a configuração do ambiente...${NC}"
 
@@ -89,32 +85,31 @@ link_dotfiles() {
     done
 }
 
-# --- 3. Ferramentas de Dev (Neovim Oficial & SDKMAN) ---
 install_tools() {
     echo -e "${GREEN}Instalando ferramentas de desenvolvimento...${NC}"
 
     if ! command -v nvim >/dev/null; then
-      echo "${BLUE}Instalando Neovim...${NC}"
+        echo "${GREEN}Instalando Neovim...${NC}"
 
-      curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 
-      sudo rm -rf /opt/nvim-linux-x86_64
+        sudo rm -rf /opt/nvim-linux-x86_64
 
-      sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+        sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
-      if [ -L /usr/local/bin/nvim ]; then
-          sudo rm /usr/local/bin/nvim
-      fi
-      sudo ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+        if [ -L /usr/local/bin/nvim ]; then
+            sudo rm /usr/local/bin/nvim
+        fi
+        sudo ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
 
-      rm nvim-linux-x86_64.tar.gz
+        rm nvim-linux-x86_64.tar.gz
     else
-      echo "${BLUE}Neovim já está instalado.${NC}"
+        echo "${BLUE}Neovim já está instalado.${NC}"
     fi
 
     # --- INSTALAÇÃO DO SDKMAN (Java) ---
     if [ ! -d "$HOME/.sdkman" ]; then
-        echo "${BLUE}Instalando SDKMAN!...${NC}"
+        echo "${GREEN}Instalando SDKMAN!...${NC}"
         curl -s "https://get.sdkman.io" | bash
     else
         echo "${BLUE}SDKMAN! já instalado."
@@ -122,7 +117,7 @@ install_tools() {
 
     # --- INSTALAÇÃO DO OH MY ZSH ---
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        echo "${BLUE}Instalando Oh My Zsh...${NC}"
+        echo "${GREEN}Instalando Oh My Zsh...${NC}"
 
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     else
@@ -130,7 +125,7 @@ install_tools() {
     fi
 
     if [ ! -d "$HOME/.fzf" ]; then
-        echo "${BLUE}Instalando FZF...${NC}"
+        echo "${GREEN}Instalando FZF...${NC}"
 
         git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
         "$HOME/.fzf/install" --all
@@ -138,8 +133,9 @@ install_tools() {
         echo "${BLUE}FZF já está instalado.${NC}"
     fi
 
+    ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
     if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
-        echo "${BLUE}Baixando Powerlevel10k...${NC}"
+        echo "${GREEN}Baixando Powerlevel10k...${NC}"
 
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
     else
@@ -147,7 +143,7 @@ install_tools() {
     fi
 
     if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-        echo "${BLUE}Baixando zsh-autosuggestions...${NC}"
+        echo "${GREEN}Baixando zsh-autosuggestions...${NC}"
 
         git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
     else
@@ -155,15 +151,16 @@ install_tools() {
     fi
 
     if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-        echo "${BLUE}Baixando zsh-syntax-highlighting...${NC}"
+        echo "${GREEN}Baixando zsh-syntax-highlighting...${NC}"
 
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
     else
         echo "${BLUE}zsh-syntax-highlighting já está instalado.${NC}"
     fi
 
+    NVM_DIR="$HOME/.nvm"
     if [ ! -d "$NVM_DIR" ]; then
-        echo "${BLUE}Instalando o NVM...${NC}"
+        echo "${GREEN}Instalando o NVM...${NC}"
 
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
     else
@@ -173,16 +170,25 @@ install_tools() {
 
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     if ! nvm ls 24 >/dev/null; then
-      echo "${BLUE}Instalando Node 24.${NC}"
+        echo "${GREEN}Instalando Node 24...${NC}"
 
-      nvm install 24
-      nvm use 24
-      nvm alias default 24
+        nvm install 24
+        nvm use 24
+        nvm alias default 24
     else
-      echo "${BLUE}Node 24 já está instalado.${NC}"
+        echo "${BLUE}Node 24 já está instalado.${NC}"
 
-      nvm use 24 >/dev/null
-      nvm alias default 24 >/dev/null
+        nvm use 24 >/dev/null
+        nvm alias default 24 >/dev/null
+    fi
+
+    FVM_DIR="$HOME/fvm"
+    if [ ! -d "$FVM_DIR" ]; then
+        echo "${GREEN}Instalando FVM...${NV}"
+
+        curl -fsSL https://fvm.app/install.sh | bash
+    else
+        echo "${BLUE}FVM já está instalado."
     fi
 }
 
