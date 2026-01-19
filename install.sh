@@ -1,21 +1,62 @@
 #!/bin/bash
 
-# Só para documentação de comandos
-# -d Verifica se uma pasta existe
-# -f Verifica se um arquivo existe
-# -z Verifica se a string está vazia
-# -s Verifica se existe o arquivo e se tem o tamanho > 0 bite
+# --- Testes de Arquivo ---
+# -e  Existe? (Qualquer tipo)
+# -f  Existe arquivo?
+# -d  Existe diretório?
+# -L  É link simbólico?
+# -s  Tem conteúdo? (Tamanho > 0 bytes)
+# -x  É executável?
+
+# --- Testes de String ---
+# -z  Está vazia? (Zero length)
+# -n  Tem conteúdo? (Non-zero)
+
+# --- Variáveis Especiais ---
+# $0  Nome deste script
+# $1  Primeiro argumento ($2, $3...)
+# $#  Quantidade total de argumentos
+# $?  Status do último comando (0 = Sucesso, Outro = Erro)
+
+# --- Debug e Saída ---
+# bash -x {SCRIPT} : Roda script exibindo comandos
+# set -x           : Ativa debug (mostra o que está fazendo)
+# set +x           : Desativa debug
+# 2>/dev/null      : Silencia erros (envia para o lixo)
+
+# --- Redirecionamento & Pipes ---
+# >   Salva no arquivo (SOBRESCREVE tudo)
+# >>  Salva no arquivo (ADICIONA ao final)
+# |   Joga a saída de um comando para o próximo
+# &>  Redireciona ERRO e SAÍDA juntos
+
+# --- Lógica Curta (One-liners) ---
+# &&  Roda SÓ se o anterior DEU CERTO (Sucesso)
+# ||  Roda SÓ se o anterior DEU ERRO (Falha)
+# Ex: mkdir pasta && cd pasta  (Só entra se criar)
+# Ex: git pull || echo "Erro"  (Só avisa se falhar)
+
+# --- Comparação (Cuidado!) ---
+# Números: -eq (igual), -ne (diferente), -gt (maior), -lt (menor)
+# Textos:  =   (igual), !=  (diferente)
+# Ex: [ 1 -eq 1 ]  vs  [ "a" = "a" ]
+
+# --- Captura de Comando ---
+# $(comando)  Pega o resultado para usar numa variável
+# Ex: HOJE=$(date +%F)
+
+# --- Input & Controle ---
+# read VAR        Lê o teclado e salva em $VAR
+# read -p "Txt"   Mostra mensagem "Txt" antes de ler (Prompt)
+# read -s         Esconde o que digita (Senha/Silent)
+# read -r         Lê exatamente o que foi digitado (evita bugs com \)
 #
-# $0 O nome do próprio script
-# $1, $2, $3... Mostra os argumentos passado em ordem
-# $# O número total de argumentos passado
-# $? Retorno do ultimo comando executado 0 = true; 1 = false
-#
-# zsh -x {SCRIPT} executa com debug
-# set -x ativa o debug dentro do script
-# set +x desativa o debug dentro do script
-#
-# 2>/dev/null redireciona o STDERR para o limbo
+# command         Executa o comando "real", ignorando aliases/funções
+# command -v      Verifica se um programa existe (Substituto seguro do 'which')
+
+# --- Redirecionamento de Entrada ---
+# < arquivo       Joga o conteúdo do arquivo para dentro do comando
+# done < arquivo  Alimenta um loop inteiro com o arquivo
 
 
 GREEN='\033[0;32m'
@@ -34,14 +75,11 @@ ask_sudo() {
     done 2>/dev/null &
 }
 
-# --- 1. Instalação de Pacotes Base (Debian/Ubuntu/WSL) ---
-# Se usar Arch ou Fedora, ajuste os comandos (pacman/dnf)
 install_packages() {
     echo -e "${GREEN}Instalando pacotes essenciais...${NC}"
 
     sudo apt update
 
-    # Ferramentas básicas do sistema
     PACKAGES=(
         git
         curl
@@ -49,15 +87,9 @@ install_packages() {
         unzip
         stow
         zsh
-        build-essential # Necessário para compilar plugins do Neovim (Treesitter)
-    )
-
-    # Ferramentas modernas para o terminal (Melhora o Neovim/Fzf)
-    PACKAGES+=(
-        ripgrep   # Grep super rápido (essencial para Telescope no Nvim)
-        fd-find   # Alternativa rápida ao 'find'
-        jq        # Processador JSON (útil para scripts)
+        ripgrep
         htop
+        build-essential # Necessário para compilar plugins do Neovim (Treesitter)
     )
 
     sudo apt install -y "${PACKAGES[@]}"
