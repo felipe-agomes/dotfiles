@@ -82,6 +82,7 @@ install_packages() {
 
     PACKAGES=(
         git
+        gh
         curl
         wget
         unzip
