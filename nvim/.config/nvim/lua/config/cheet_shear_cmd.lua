@@ -61,6 +61,8 @@ vim.api.nvim_create_user_command("Cheat", function(opts)
 		return
 	end
 
+  local filename = string.sub(file_path, string.find(file_path, "/") + 1, -1)
+
 	-- Comando para pegar o conteúdo do arquivo (Raw)
 	local cmd = string.format(
 		'gh api -H "Accept: application/vnd.github.raw" /repos/%s/%s/contents/%s',
@@ -70,7 +72,7 @@ vim.api.nvim_create_user_command("Cheat", function(opts)
 	)
 
 	-- Abre split vertical e configura o buffer
-	vim.cmd("vnew")
+	vim.cmd("vnew " .. filename)
 	vim.cmd("read !" .. cmd)
 	vim.cmd("normal! ggdd") -- Remove a linha vazia do topo
 
