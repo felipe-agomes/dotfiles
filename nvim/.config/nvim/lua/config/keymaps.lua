@@ -72,7 +72,7 @@ end, { desc = "Search all todos" })
 -- Remove
 vim.keymap.set("n", "<leader>rc", function()
   local save_cursor = vim.fn.winsaveview()
-	vim.cmd("%s/\\r//g")
+	vim.cmd([[keeppatterns %s/\r//e]])
   vim.fn.winrestview(save_cursor)
 end, { desc = "Remove Carriage Return" })
 vim.keymap.set("n", "<leader>rw", function()
