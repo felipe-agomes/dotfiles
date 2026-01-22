@@ -10,6 +10,27 @@ return {
 		explorer = { enabled = true },
 		indent = { enabled = true },
 		input = { enabled = true },
+		image = {
+			-- define these here, so that we don't need to load the image module
+			formats = {
+				"png",
+				"jpg",
+				"jpeg",
+				"gif",
+				"bmp",
+				"webp",
+				"tiff",
+				"heic",
+				"avif",
+				"mp4",
+				"mov",
+				"avi",
+				"mkv",
+				"webm",
+				"pdf",
+				"icns",
+			},
+		},
 		notifier = {
 			enabled = true,
 			timeout = 3000,
