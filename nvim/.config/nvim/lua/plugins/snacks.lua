@@ -488,5 +488,16 @@ return {
 				Snacks.toggle.dim():map("<leader>uD")
 			end,
 		})
+
+		vim.api.nvim_create_autocmd("TermClose", {
+			pattern = "*lazygit",
+			callback = function()
+				if package.loaded.gitsigns then
+					vim.schedule(function()
+						require("gitsigns").refresh()
+					end)
+				end
+			end,
+		})
 	end,
 }
