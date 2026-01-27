@@ -75,6 +75,7 @@ return {
 				end
 			end, { desc = "hunk anterior" })
 
+			map("n", "<leader>gR", gitsigns.refresh, { desc = "Refresh" })
 			map("n", "<leader>ghs", gitsigns.stage_hunk, { desc = "Stage hunk" })
 			map("n", "<leader>ghr", gitsigns.reset_hunk, { desc = "Reset hunk" })
 			map("n", "<leader>ghp", gitsigns.preview_hunk, { desc = "Preview hunk" })
