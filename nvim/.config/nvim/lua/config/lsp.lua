@@ -94,7 +94,7 @@ vim.lsp.config("lua_ls", {
 
 vim.lsp.config("vtsls", {
 	cmd = { "vtsls", "--stdio" },
-	filetypes = { "javascript", "typescript" },
+	filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 	single_file_support = true,
 	capabilities = capabilities,
 	on_attach = on_attach,
@@ -125,8 +125,8 @@ vim.lsp.config("dart_ls", {
 })
 
 vim.lsp.config("sh_ls", {
-  cmd = { 'bash-language-server', 'start' },
-  filetypes = { 'bash', 'sh', 'zsh' }
+	cmd = { "bash-language-server", "start" },
+	filetypes = { "bash", "sh", "zsh" },
 })
 
 vim.lsp.enable({
@@ -138,5 +138,5 @@ vim.lsp.enable({
 	"xml_ls",
 	"json_ls",
 	"dart_ls",
-  "sh_ls",
+	"sh_ls",
 })
