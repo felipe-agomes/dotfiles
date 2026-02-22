@@ -92,9 +92,9 @@ vim.lsp.config("lua_ls", {
 	on_attach = on_attach,
 })
 
-vim.lsp.config("javascript_ls", {
+vim.lsp.config("vtsls", {
 	cmd = { "vtsls", "--stdio" },
-	filetypes = { "javascript" },
+	filetypes = { "javascript", "typescript" },
 	single_file_support = true,
 	capabilities = capabilities,
 	on_attach = on_attach,
@@ -134,7 +134,7 @@ vim.lsp.enable({
 	"sql_ls",
 	"lua_ls",
 	"yaml_ls",
-	"javascript_ls",
+	"vtsls",
 	"xml_ls",
 	"json_ls",
 	"dart_ls",

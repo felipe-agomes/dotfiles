@@ -28,6 +28,8 @@ return {
 		formatters_by_ft = {
 			lua = { "stylua" },
 			java = { "google_java_format" },
+      javascript = { "prettierd"},
+      typescript = { "prettierd"},
 			sql = { "sql_formatter" },
 			xml = { "xmlformat" },
 			json = { "fixjson" },
