@@ -4,6 +4,9 @@ return {
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
+		config = function()
+      vim.cmd("colorscheme tokyonight")
+		end,
 	},
 	{
 		"catppuccin/nvim",
@@ -24,9 +27,6 @@ return {
 		"sainnhe/gruvbox-material",
 		lazy = false,
 		priority = 1000,
-		config = function()
-      vim.cmd("colorscheme gruvbox-material")
-		end,
 	},
 	{
 		"ribru17/bamboo.nvim",
