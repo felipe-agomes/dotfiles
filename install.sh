@@ -160,10 +160,12 @@ install_packages() {
         curl
         wget
         unzip
+        zip
         stow
         zsh
         ripgrep
         htop
+        tree-sitter-cli
     )
     pkg_install "${COMMON_PACKAGES[@]}"
 
@@ -225,7 +227,7 @@ install_tools() {
         info "SDKMAN já instalado, pulando..."
     else
         info "Instalando SDKMAN..."
-        curl -s "https://get.sdkman.io" | bash || die "Falha ao instalar SDKMAN."
+        curl -s "https://get.sdkman.io" | bash
         success "SDKMAN instalado."
     fi
 
