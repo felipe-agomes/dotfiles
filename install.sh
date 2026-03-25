@@ -295,6 +295,15 @@ install_tools() {
         success "NVM instalado."
     fi
 
+    local BUN_DIR="$HOME/.bun"
+    if [[ -d "${BUN_DIR}" ]]; then
+        info "BUN já instalado, pulando..."
+    else
+        info "Instalando BUN..."
+        curl -fsSL https://bun.sh/install | bash || die "Falha ao instalar o BUN."
+        success "BUN instalado."
+    fi
+
     # shellcheck disable=SC1091
     [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
     if ! nvm ls 24 &>/dev/null; then
