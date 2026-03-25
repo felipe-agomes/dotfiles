@@ -166,6 +166,8 @@ install_packages() {
         ripgrep
         htop
         tree-sitter-cli
+        wl-clipboard
+        lazygit
     )
     pkg_install "${COMMON_PACKAGES[@]}"
 
