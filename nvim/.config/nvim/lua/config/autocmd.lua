@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.treesitter.language.register("bash", "zsh")
 		vim.treesitter.language.register("javascript", "javascriptreact")
 		vim.treesitter.language.register("typescript", "typescriptreact")
-		vim.treesitter.start()
+    pcall(vim.treesitter.start)
 	end,
 })
 

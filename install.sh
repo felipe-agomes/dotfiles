@@ -59,202 +59,298 @@
 # done < arquivo  Alimenta um loop inteiro com o arquivo
 
 
+RED='\033[0;31m'
 GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+RESET='\033[0m'
 
-echo -e "${BLUE}Iniciando a configuração do ambiente...${NC}"
+info()    { echo -e "${CYAN}[INFO]${RESET}  $*"; }
+success() { echo -e "${GREEN}[OK]${RESET}    $*"; }
+warn()    { echo -e "${YELLOW}[AVISO]${RESET} $*"; }
+error()   { echo -e "${RED}[ERRO]${RESET}  $*" >&2; }
+die()     { error "$*"; exit 1; }
 
-# Função para pedir senha sudo antecipadamente
+check_installed() {
+    command -v "$1" &>/dev/null
+}
+
+detect_pkg_manager() {
+    if check_installed pacman; then
+        PKG_MANAGER="pacman"
+
+        info "Sistema Arch detectado."
+    elif check_installed apt; then
+        PKG_MANAGER="apt"
+
+        info "Sistema Debian/Ubuntu detectado."
+    else
+        die "Nenhum gerenciador de pacotes suportado encontrado."
+    fi
+}
+
+yay_install_dependency() {
+    info "Instalando dependências (git, base-devel)..."
+    sudo pacman -S --needed --noconfirm git base-devel &>/dev/null
+    success "Dependências instaladas."
+}
+
+yay_clone_and_install() {
+    local tmp_dir
+    tmp_dir=$(mktemp -d)
+
+    info "Clonando YAY em ${tmp_dir}..."
+    git clone "https://aur.archlinux.org/yay.git" "${tmp_dir}/YAY"
+    success "Clonado com sucesso."
+
+    info "Compilando e instalando YAY..."
+    cd "${tmp_dir}/YAY"
+    makepkg -si --noconfirm
+    success "Compilado com sucesso."
+
+    info "Limpando arquivos temporários..."
+    cd ~
+    rm -rf "${tmp_dir}"
+}
+
+yay_install() {
+    if check_installed yay; then
+        info "YAY já está instalado."
+    else
+        yay_install_dependency
+        yay_clone_and_install
+    fi
+}
+
 ask_sudo() {
     sudo -v
-    while true;
-    do sudo -n true;
-        sleep 60;
-        kill -0 "$$" || exit;
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$" || exit
     done 2>/dev/null &
 }
 
+pkg_install() {
+    if [[ "${PKG_MANAGER}" == "yay" ]]; then
+        yay -S --needed --noconfirm "$@"
+    elif [[ "$PKG_MANAGER" == "apt" ]]; then
+        sudo apt install -y "$@"
+    fi
+}
+
+pkg_update() {
+    if [[ "${PKG_MANAGER}" == "yay" ]]; then
+        yay -Syu --noconfirm
+    elif [[ "$PKG_MANAGER" == "apt" ]]; then
+        sudo apt update && sudo apt upgrade -y
+    fi
+}
+
 install_packages() {
-    echo -e "${GREEN}Instalando pacotes essenciais...${NC}"
+    info "Atualizando sistema..."
+    # pkg_update
 
-    sudo apt update
+    info "Instalando pacotes essenciais..."
 
-    PACKAGES=(
+    # Pacotes com o mesmo nome em ambos os gerenciadores
+    local -r COMMON_PACKAGES=(
         git
-        gh
         curl
         wget
         unzip
+        zip
         stow
         zsh
         ripgrep
         htop
-        build-essential # Necessário para compilar plugins do Neovim (Treesitter)
+        tree-sitter-cli
+        wl-clipboard
+        lazygit
     )
+    pkg_install "${COMMON_PACKAGES[@]}"
 
-    sudo apt install -y "${PACKAGES[@]}"
+    # Pacotes com nomes diferentes por distro
+    if [[ "$PKG_MANAGER" == "yay" ]]; then
+        pkg_install github-cli
+    elif [[ "$PKG_MANAGER" == "apt" ]]; then
+        pkg_install build-essential gh
+    fi
 }
 
-# --- 2. Linkando os Dotfiles com Stow ---
+# --- Linkando os Dotfiles com Stow ---
 link_dotfiles() {
-    echo -e "${GREEN}Aplicando configurações com Stow...${NC}"
+    local -r DOTFILES_DIR="$HOME/dotfiles"
 
-    DOTFILES_DIR="$HOME/dotfiles"
-    cd "$DOTFILES_DIR" || exit
+    if [[ ! -d "$DOTFILES_DIR" ]]; then
+        die "Diretório $DOTFILES_DIR não encontrado."
+    fi
 
-    STOW_DIRS=(
-        nvim
-        zsh
-    )
+    info "Aplicando configurações com Stow..."
+    cd "$DOTFILES_DIR" || die "Não foi possível acessar $DOTFILES_DIR."
+
+    local -r STOW_DIRS=(nvim zsh)
 
     for dir in "${STOW_DIRS[@]}"; do
-        stow --restow  "$dir"
-        echo -e "${GREEN}Configuração linkada: ${dir}${NC}"
+        if [[ ! -d "$dir" ]]; then
+            warn "Diretório '$dir' não encontrado em dotfiles, pulando..."
+            continue
+        fi
+        stow --restow "$dir" && success "Linkado: $dir" || error "Falha ao linkar: $dir"
     done
 }
 
+# --- Instalação de ferramentas de desenvolvimento ---
 install_tools() {
-    echo -e "${GREEN}Instalando ferramentas de desenvolvimento...${NC}"
+    info "Instalando ferramentas de desenvolvimento..."
 
-    if ! command -v nvim >/dev/null; then
-        echo -e "${GREEN}Instalando Neovim...${NC}"
-
-        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-
-        sudo rm -rf /opt/nvim-linux-x86_64
-
-        sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-
-        if [ -L /usr/local/bin/nvim ]; then
-            sudo rm /usr/local/bin/nvim
+    # Neovim
+    if check_installed nvim; then
+        info "Neovim já instalado, pulando..."
+    else
+        info "Instalando Neovim..."
+        if [[ "$PKG_MANAGER" == "yay" ]]; then
+            pkg_install neovim
+        else
+            curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz \
+                || die "Falha ao baixar Neovim."
+            sudo rm -rf /opt/nvim-linux-x86_64
+            sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+            [[ -L /usr/local/bin/nvim ]] && sudo rm /usr/local/bin/nvim
+            sudo ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+            rm -f nvim-linux-x86_64.tar.gz
         fi
-        sudo ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
-
-        rm nvim-linux-x86_64.tar.gz
-    else
-        echo -e "${BLUE}Neovim já está instalado.${NC}"
+        success "Neovim instalado."
     fi
 
-    # --- INSTALAÇÃO DO SDKMAN (Java) ---
-    if [ ! -d "$HOME/.sdkman" ]; then
-        echo -e "${GREEN}Instalando SDKMAN!...${NC}"
+    # SDKMAN
+    if [[ -d "$HOME/.sdkman" ]]; then
+        info "SDKMAN já instalado, pulando..."
+    else
+        info "Instalando SDKMAN..."
         curl -s "https://get.sdkman.io" | bash
-    else
-        echo -e "${BLUE}SDKMAN! já instalado."
+        success "SDKMAN instalado."
     fi
 
-    # --- INSTALAÇÃO DO OH MY ZSH ---
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        echo -e "${GREEN}Instalando Oh My Zsh...${NC}"
-
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # Oh My Zsh
+    if [[ -d "$HOME/.oh-my-zsh" ]]; then
+        info "Oh My Zsh já instalado, pulando..."
     else
-        echo -e "${BLUE}Oh My Zsh já está instalado.${NC}"
+        info "Instalando Oh My Zsh..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended \
+            || die "Falha ao instalar Oh My Zsh."
+        success "Oh My Zsh instalado."
     fi
 
-    if [ ! -d "$HOME/.fzf" ]; then
-        echo -e "${GREEN}Instalando FZF...${NC}"
-
-        git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+    # FZF
+    if [[ -d "$HOME/.fzf" ]]; then
+        info "FZF já instalado, pulando..."
+    else
+        info "Instalando FZF..."
+        git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf" \
+            || die "Falha ao clonar FZF."
         "$HOME/.fzf/install" --all
-    else
-        echo -e "${BLUE}FZF já está instalado.${NC}"
+        success "FZF instalado."
     fi
 
-    ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-    if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
-        echo -e "${GREEN}Baixando Powerlevel10k...${NC}"
-
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+    # Powerlevel10k
+    local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+    if [[ -d "$ZSH_CUSTOM/themes/powerlevel10k" ]]; then
+        info "Powerlevel10k já instalado, pulando..."
     else
-        echo -e "${BLUE}Powerlevel10k já está instalado.${NC}"
+        info "Instalando Powerlevel10k..."
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k" \
+            || die "Falha ao clonar Powerlevel10k."
+        success "Powerlevel10k instalado."
     fi
 
-    if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-        echo -e "${GREEN}Baixando zsh-autosuggestions...${NC}"
-
-        git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    # zsh-autosuggestions
+    if [[ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+        info "zsh-autosuggestions já instalado, pulando..."
     else
-        echo -e "${BLUE}zsh-autosuggestions já está instalado.${NC}"
+        info "Instalando zsh-autosuggestions..."
+        git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" \
+            || die "Falha ao clonar zsh-autosuggestions."
+        success "zsh-autosuggestions instalado."
     fi
 
-    if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-        echo -e "${GREEN}Baixando zsh-syntax-highlighting...${NC}"
-
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+    # zsh-syntax-highlighting
+    if [[ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
+        info "zsh-syntax-highlighting já instalado, pulando..."
     else
-        echo -e "${BLUE}zsh-syntax-highlighting já está instalado.${NC}"
+        info "Instalando zsh-syntax-highlighting..."
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" \
+            || die "Falha ao clonar zsh-syntax-highlighting."
+        success "zsh-syntax-highlighting instalado."
     fi
 
-    NVM_DIR="$HOME/.nvm"
-    if [ ! -d "$NVM_DIR" ]; then
-        echo -e "${GREEN}Instalando o NVM...${NC}"
-
+    # NVM + Node 24
+    local NVM_DIR="$HOME/.nvm"
+    if [[ -d "$NVM_DIR" ]]; then
+        info "NVM já instalado, pulando..."
+    else
+        info "Instalando NVM..."
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+        success "NVM instalado."
+    fi
+
+    local BUN_DIR="$HOME/.bun"
+    if [[ -d "${BUN_DIR}" ]]; then
+        info "BUN já instalado, pulando..."
     else
-        echo -e "${BLUE}NVM já está instalado.${NC}"
+        info "Instalando BUN..."
+        curl -fsSL https://bun.sh/install | bash || die "Falha ao instalar o BUN."
+        success "BUN instalado."
     fi
 
     # shellcheck disable=SC1091
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    if ! nvm ls 24 >/dev/null; then
-        echo -e "${GREEN}Instalando Node 24...${NC}"
-
-        nvm install 24
-        nvm alias default 24
+    [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+    if ! nvm ls 24 &>/dev/null; then
+        info "Instalando Node 24..."
+        nvm install 24 && nvm alias default 24
+        success "Node 24 instalado."
     else
-        echo -e "${BLUE}Node 24 já está instalado.${NC}"
+        info "Node 24 já instalado, pulando..."
     fi
+    nvm use 24 &>/dev/null
 
-    nvm use 24 >/dev/null
-
-    FVM_DIR="$HOME/fvm"
-    if [ ! -d "$FVM_DIR" ]; then
-        echo -e "${GREEN}Instalando FVM...${NV}"
-
+    # FVM (Flutter)
+    if [[ -d "$HOME/fvm" ]]; then
+        info "FVM já instalado, pulando..."
+    else
+        info "Instalando FVM..."
         curl -fsSL https://fvm.app/install.sh | bash
-    else
-        echo -e "${BLUE}FVM já está instalado."
-    fi
-
-    if ! command -v op >/dev/null; then
-        echo -e "${GREEN}Instalando 1password..."
-
-        curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
-            sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-
-        echo -e "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" | \
-            sudo tee /etc/apt/sources.list.d/1password.list
-
-        sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/ && \
-            curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
-            sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
-
-        sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22 && \
-            curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
-            sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
-
-        sudo apt update && sudo apt install 1password-cli
-    else
-        echo -e "${BLUE}1password já está instalado."
+        success "FVM instalado."
     fi
 }
 
-# --- 4. Configuração Final ---
 setup_shell() {
-    # Define o Zsh como shell padrão se já não for
-    if [ "$SHELL" != "$(which zsh)" ]; then
-        echo -e "${BLUE}Alterando shell padrão para Zsh...${NC}"
-        chsh -s "$(which zsh)"
+    if [[ "$SHELL" != "$(which zsh)" ]]; then
+        info "Alterando shell padrão para Zsh..."
+        chsh -s "$(which zsh)" || warn "Não foi possível alterar o shell. Rode manualmente: chsh -s $(which zsh)"
+        success "Shell alterado para Zsh."
+    else
+        info "Zsh já é o shell padrão."
     fi
 }
 
-# --- Execução ---
-ask_sudo
-install_packages
-install_tools
-link_dotfiles
-setup_shell
+main() {
+    detect_pkg_manager
+    ask_sudo
 
-echo -e "${GREEN}Instalação concluída! Reinicie o terminal ou faça logout/login.${NC}"
+    if [[ "$PKG_MANAGER" == "pacman" ]]; then
+        yay_install
+        PKG_MANAGER="yay"
+        success "Usando yay como gerenciador."
+    fi
+
+    install_packages
+    install_tools
+    link_dotfiles
+    setup_shell
+
+    success "Ambiente configurado com sucesso!"
+}
+
+main
