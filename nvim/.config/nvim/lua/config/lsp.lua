@@ -102,7 +102,7 @@ vim.lsp.config("vtsls", {
 
 vim.lsp.config("xml_ls", {
 	cmd = { "lemminx" },
-	filetypes = { "xml" },
+	filetypes = { "xml", "xhtml" },
 	single_file_support = true,
 	capabilities = capabilities,
 	on_attach = on_attach,
@@ -130,7 +130,7 @@ vim.lsp.config("sh_ls", {
 })
 
 vim.lsp.enable({
-	"java_ls",
+	"jdtls",
 	"sql_ls",
 	"lua_ls",
 	"yaml_ls",

@@ -16,9 +16,9 @@ return {
 
       ts.setup(opts)
 
-      ts.install({
-          "json", "java", "lua", "sql", "yaml",
-          "csv", "xml", "javascript", "typescript", "bash"
-      })
+      -- ts.install({
+      --     "json", "java", "lua", "sql", "yaml",
+      --     "csv", "xml", "javascript", "typescript", "bash"
+      -- })
   end,
 }
