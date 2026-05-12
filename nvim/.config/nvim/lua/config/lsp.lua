@@ -1,4 +1,6 @@
-local on_attach = function(_, bufnr)
+local M = {}
+
+M.on_attach = function(_, bufnr)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Goto Definition", buffer = bufnr })
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Goto Declaration", buffer = bufnr })
 	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "LSP: Goto Implementation", buffer = bufnr })
@@ -23,7 +25,7 @@ local on_attach = function(_, bufnr)
 	)
 	vim.keymap.set(
 		"n",
-		"<leader>ci",
+		"<leader>co",
 		vim.lsp.buf.outgoing_calls,
 		{ desc = "LSP: Calls Outgoing", buffer = bufnr, nowait = true }
 	)
@@ -42,101 +44,79 @@ local on_attach = function(_, bufnr)
 	vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, { desc = "LSP: Signature Hellp", buffer = bufnr })
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
 local ok, cmp = pcall(require, "cmp_nvim_lsp")
 if ok then
-	capabilities = cmp.default_capabilities(capabilities)
+	M.capabilities = cmp.default_capabilities(M.capabilities)
 end
 
-local root_dir = vim.fs.root(0, {
-	"pom.xml",
-	"build.gradle",
-	"build.gradle.kts",
-	"settings.gradle",
-	"settings.gradle.kts",
-	".git",
-})
-
-local workspace_dir = vim.fn.stdpath("data") .. "/jdtls/workspaces/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
-
-vim.lsp.config("java_ls", {
-	cmd = {
-		"jdtls",
-		"-data",
-		workspace_dir,
-	},
-	root_dir = root_dir,
-	filetypes = { "java" },
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-vim.lsp.config("sql_ls", {
+vim.lsp.config("sqlls", {
 	cmd = { "sqls" },
 	filetypes = { "sql" },
 	single_file_support = true,
-	on_attach = on_attach,
+	on_attach = M.on_attach,
 })
 
-vim.lsp.config("yaml_ls", {
+vim.lsp.config("yamlls", {
 	cmd = { "yaml-language-server", "--stdio" },
 	filetypes = { "yml", "yaml" },
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = M.capabilities,
+	on_attach = M.on_attach,
 })
 
-vim.lsp.config("lua_ls", {
+vim.lsp.config("luals", {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = M.capabilities,
+	on_attach = M.on_attach,
 })
 
 vim.lsp.config("vtsls", {
 	cmd = { "vtsls", "--stdio" },
 	filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 	single_file_support = true,
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = M.capabilities,
+	on_attach = M.on_attach,
 })
 
-vim.lsp.config("xml_ls", {
+vim.lsp.config("xmlls", {
 	cmd = { "lemminx" },
 	filetypes = { "xml", "xhtml" },
 	single_file_support = true,
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = M.capabilities,
+	on_attach = M.on_attach,
 })
 
-vim.lsp.config("json_ls", {
+vim.lsp.config("jsonls", {
 	cmd = { "vscode-json-language-server", "--stdio" },
 	filetypes = { "json" },
 	single_file_support = true,
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = M.capabilities,
+	on_attach = M.on_attach,
 })
 
-vim.lsp.config("dart_ls", {
+vim.lsp.config("dartls", {
 	cmd = { "dcm", "start-server", "--client=neovim" },
 	filetypes = { "dart" },
 	root_markers = { "pubspec.yaml" },
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = M.capabilities,
+	on_attach = M.on_attach,
 })
 
-vim.lsp.config("sh_ls", {
+vim.lsp.config("bashls", {
 	cmd = { "bash-language-server", "start" },
 	filetypes = { "bash", "sh", "zsh" },
 })
 
 vim.lsp.enable({
-	"jdtls",
-	"sql_ls",
-	"lua_ls",
-	"yaml_ls",
+	"sqlls",
+	"luals",
+	"yamlls",
 	"vtsls",
-	"xml_ls",
-	"json_ls",
-	"dart_ls",
-	"sh_ls",
+	"xmlls",
+	"jsonls",
+	"dartls",
+	"sbashl",
 })
+
+return M
