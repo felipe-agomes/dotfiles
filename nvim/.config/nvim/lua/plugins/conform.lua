@@ -32,6 +32,7 @@ return {
       typescript = { "prettierd"},
       javascriptreact = { "prettierd"},
       typescriptreact = { "prettierd"},
+      markdown = { "prettierd"},
 			sql = { "sql_formatter" },
 			xml = { "xmlformat" },
 			json = { "prettierd" },

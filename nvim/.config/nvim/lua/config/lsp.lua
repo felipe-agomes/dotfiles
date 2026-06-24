@@ -108,6 +108,12 @@ vim.lsp.config("bashls", {
 	filetypes = { "bash", "sh", "zsh" },
 })
 
+vim.lsp.config("markdownls", {
+	cmd = { "marksman" },
+	filetypes = { "markdown" },
+	on_attach = M.on_attach,
+})
+
 vim.lsp.enable({
 	"sqlls",
 	"luals",
@@ -117,6 +123,7 @@ vim.lsp.enable({
 	"jsonls",
 	"dartls",
 	"sbashl",
+	"markdownls",
 })
 
 return M
