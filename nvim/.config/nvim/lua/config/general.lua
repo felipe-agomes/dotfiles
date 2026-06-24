@@ -13,3 +13,5 @@ vim.opt.wrap = false
 vim.opt.list = true
 vim.opt.mousemoveevent = true
 vim.opt.undofile = true
+vim.opt.undolevels = 1000
+vim.opt.undoreload = 10000
