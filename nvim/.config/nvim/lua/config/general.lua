@@ -12,3 +12,4 @@ vim.opt.smarttab = true
 vim.opt.wrap = false
 vim.opt.list = true
 vim.opt.mousemoveevent = true
+vim.opt.undofile = true
