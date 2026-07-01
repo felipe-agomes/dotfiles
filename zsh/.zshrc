@@ -111,6 +111,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
 
 export FVM_DIR="$HOME/fvm"
 export PATH="$FVM_DIR/bin:$PATH"

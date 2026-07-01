@@ -4,11 +4,12 @@ vim.api.nvim_create_autocmd("FileType", {
 		"java",
 		"lua",
 		"javascript",
-    "typescript",
+		"typescript",
 		"javascriptreact",
-    "typescriptreact",
+		"typescriptreact",
 		"yml",
-		"yaml" --[[ , "sql", "plsql" ]],
+		"yaml",
+		"sql",
 		"csv",
 		"xml",
 		"json",
@@ -17,11 +18,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		"zsh",
 	},
 	callback = function()
-		vim.treesitter.language.register("sql", "plsql")
 		vim.treesitter.language.register("bash", "zsh")
 		vim.treesitter.language.register("javascript", "javascriptreact")
 		vim.treesitter.language.register("typescript", "typescriptreact")
-    pcall(vim.treesitter.start)
+
+		vim.treesitter.start()
 	end,
 })
 

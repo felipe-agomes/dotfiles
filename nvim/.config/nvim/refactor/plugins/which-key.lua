@@ -1,3 +1,4 @@
+-- Popup que exibe os atalhos de teclado disponíveis enquanto você digita.return {
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
@@ -48,7 +49,7 @@ return {
 				require("which-key").show({ global = false })
 			end,
 			desc = "Buffer Keymaps (which-key)",
-		},
+		}
 	},
 	config = function(_, opts)
 		local wk = require("which-key")

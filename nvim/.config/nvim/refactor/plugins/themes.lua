@@ -1,3 +1,4 @@
+-- Configuração do esquema de cores (Colorscheme).
 return {
 	{
 		"folke/tokyonight.nvim",
@@ -9,7 +10,7 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd("colorscheme catppuccin-frappe")
+      vim.cmd("colorscheme catppuccin-frappe")
 		end,
 	},
 	{
