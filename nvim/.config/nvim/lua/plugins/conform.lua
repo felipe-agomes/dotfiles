@@ -10,8 +10,8 @@ return {
 		local conform = require("conform")
 		conform.setup(opts)
 
-		vim.keymap.set("n", "<leader>cf", function()
+		vim.keymap.set("n", "grf", function()
 			conform.format()
-		end, { desc = "Format" })
+		end, { desc = "Format Buffer" })
 	end,
 }

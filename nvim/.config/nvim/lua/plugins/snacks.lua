@@ -21,4 +21,92 @@ return {
 		-- statuscolumn = { enabled = true },
 		-- words = { enabled = true },
 	},
+	-- keys = {
+	-- 	{
+	-- 		"<leader>gg",
+	-- 		function()
+	-- 			Snacks.lazygit()
+	-- 		end,
+	-- 		desc = "Lazygit",
+	-- 	},
+	-- 	-- find
+	-- 	{
+	-- 		"<leader>fb",
+	-- 		function()
+	-- 			Snacks.picker.buffers()
+	-- 		end,
+	-- 		desc = "Buffers",
+	-- 	},
+	-- 	{
+	-- 		"<leader>fc",
+	-- 		function()
+	-- 			Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+	-- 		end,
+	-- 		desc = "Find Config File",
+	-- 	},
+	-- 	{
+	-- 		"<leader><space>",
+	-- 		function()
+	-- 			Snacks.picker.files()
+	-- 		end,
+	-- 		desc = "Find Files",
+	-- 	},
+	-- 	{
+	-- 		"<leader>fr",
+	-- 		function()
+	-- 			Snacks.picker.recent()
+	-- 		end,
+	-- 		desc = "Recent",
+	-- 	},
+	-- 	-- Grep
+	-- 	{
+	-- 		"<leader>sB",
+	-- 		function()
+	-- 			Snacks.picker.grep_buffers()
+	-- 		end,
+	-- 		desc = "Grep Open Buffers",
+	-- 	},
+	-- 	{
+	-- 		"<leader>sg",
+	-- 		function()
+	-- 			Snacks.picker.grep()
+	-- 		end,
+	-- 		desc = "Grep",
+	-- 	},
+	-- 	{
+	-- 		"<leader>sa",
+	-- 		function()
+	-- 			Snacks.picker.autocmds()
+	-- 		end,
+	-- 		desc = "Autocmds",
+	-- 	},
+	-- 	{
+	-- 		"<leader>sk",
+	-- 		function()
+	-- 			Snacks.picker.keymaps()
+	-- 		end,
+	-- 		desc = "Keymaps",
+	-- 	},
+	-- 	{
+	-- 		"<leader>sm",
+	-- 		function()
+	-- 			Snacks.picker.marks()
+	-- 		end,
+	-- 		desc = "Marks",
+	-- 	},
+	-- 	{
+	-- 		"<leader>sp",
+	-- 		function()
+	-- 			Snacks.picker.lazy()
+	-- 		end,
+	-- 		desc = "Search for Plugin Spec",
+	-- 	},
+	-- 	{
+	-- 		"<leader>uC",
+	-- 		function()
+	-- 			Snacks.picker.colorschemes()
+	-- 		end,
+	-- 		desc = "Colorschemes",
+	-- 	},
+	-- },
 }
