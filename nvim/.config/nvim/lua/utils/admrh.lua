@@ -6,7 +6,7 @@ function M.extract_procedure_name()
 	if not first_line then
 		return
 	end
-	local regex_procedure_name = [[\v:?(trigger|function|procedure|body|package)\s+(\w+)]]
+	local regex_procedure_name = [[\v:?(trigger|function|procedure|package body|package)\s+(\w+)]]
 	local matches = vim.fn.matchlist(first_line, regex_procedure_name)
 	if matches[3] then
 		return matches[3]

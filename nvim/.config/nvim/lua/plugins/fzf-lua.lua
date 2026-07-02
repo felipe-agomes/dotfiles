@@ -11,6 +11,8 @@ return {
 
 		fzf_lua.setup(opts)
 
+    fzf_lua.register_ui_select()
+
 		vim.keymap.set("n", "<leader><space>", function()
 			fzf_lua.files()
 		end, { desc = "File: Files (Project)" })

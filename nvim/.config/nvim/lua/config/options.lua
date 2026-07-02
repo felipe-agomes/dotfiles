@@ -16,4 +16,3 @@ vim.opt.undofile = true
 vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
 vim.opt.list = false
--- vim.opt.list = true

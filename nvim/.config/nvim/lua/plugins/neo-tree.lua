@@ -13,6 +13,8 @@ return {
 		window = {
 			mappings = {
 				["<space>"] = "",
+				["z"] = "",
+				["<BS>"] = "close_all_nodes",
 			},
 		},
 	},
