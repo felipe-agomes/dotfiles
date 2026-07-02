@@ -1,112 +1,113 @@
-return {
-	"folke/snacks.nvim",
-	priority = 1000,
-	lazy = false,
-	---@type snacks.Config
-	opts = {
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
-		-- refer to the configuration section below
-		-- image = { enabled = true },
-		-- bigfile = { enabled = true },
-		-- dashboard = { enabled = true },
-		-- explorer = { enabled = true },
-		indent = { enabled = true },
-		-- input = { enabled = true },
-		-- picker = { enabled = true },
-		-- notifier = { enabled = true },
-		-- quickfile = { enabled = true },
-		-- scope = { enabled = true },
-		-- scroll = { enabled = true },
-		-- statuscolumn = { enabled = true },
-		-- words = { enabled = true },
-	},
-	-- keys = {
-	-- 	{
-	-- 		"<leader>gg",
-	-- 		function()
-	-- 			Snacks.lazygit()
-	-- 		end,
-	-- 		desc = "Lazygit",
-	-- 	},
-	-- 	-- find
-	-- 	{
-	-- 		"<leader>fb",
-	-- 		function()
-	-- 			Snacks.picker.buffers()
-	-- 		end,
-	-- 		desc = "Buffers",
-	-- 	},
-	-- 	{
-	-- 		"<leader>fc",
-	-- 		function()
-	-- 			Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
-	-- 		end,
-	-- 		desc = "Find Config File",
-	-- 	},
-	-- 	{
-	-- 		"<leader><space>",
-	-- 		function()
-	-- 			Snacks.picker.files()
-	-- 		end,
-	-- 		desc = "Find Files",
-	-- 	},
-	-- 	{
-	-- 		"<leader>fr",
-	-- 		function()
-	-- 			Snacks.picker.recent()
-	-- 		end,
-	-- 		desc = "Recent",
-	-- 	},
-	-- 	-- Grep
-	-- 	{
-	-- 		"<leader>sB",
-	-- 		function()
-	-- 			Snacks.picker.grep_buffers()
-	-- 		end,
-	-- 		desc = "Grep Open Buffers",
-	-- 	},
-	-- 	{
-	-- 		"<leader>sg",
-	-- 		function()
-	-- 			Snacks.picker.grep()
-	-- 		end,
-	-- 		desc = "Grep",
-	-- 	},
-	-- 	{
-	-- 		"<leader>sa",
-	-- 		function()
-	-- 			Snacks.picker.autocmds()
-	-- 		end,
-	-- 		desc = "Autocmds",
-	-- 	},
-	-- 	{
-	-- 		"<leader>sk",
-	-- 		function()
-	-- 			Snacks.picker.keymaps()
-	-- 		end,
-	-- 		desc = "Keymaps",
-	-- 	},
-	-- 	{
-	-- 		"<leader>sm",
-	-- 		function()
-	-- 			Snacks.picker.marks()
-	-- 		end,
-	-- 		desc = "Marks",
-	-- 	},
-	-- 	{
-	-- 		"<leader>sp",
-	-- 		function()
-	-- 			Snacks.picker.lazy()
-	-- 		end,
-	-- 		desc = "Search for Plugin Spec",
-	-- 	},
-	-- 	{
-	-- 		"<leader>uC",
-	-- 		function()
-	-- 			Snacks.picker.colorschemes()
-	-- 		end,
-	-- 		desc = "Colorschemes",
-	-- 	},
-	-- },
-}
+return {}
+-- return {
+-- 	"folke/snacks.nvim",
+-- 	priority = 1000,
+-- 	lazy = false,
+-- 	---@type snacks.Config
+-- 	opts = {
+-- 		-- your configuration comes here
+-- 		-- or leave it empty to use the default settings
+-- 		-- refer to the configuration section below
+-- 		-- image = { enabled = true },
+-- 		-- bigfile = { enabled = true },
+-- 		-- dashboard = { enabled = true },
+-- 		-- explorer = { enabled = true },
+-- 		-- indent = { enabled = true },
+-- 		-- input = { enabled = true },
+-- 		-- picker = { enabled = true },
+-- 		-- notifier = { enabled = true },
+-- 		-- quickfile = { enabled = true },
+-- 		-- scope = { enabled = true },
+-- 		-- scroll = { enabled = true },
+-- 		-- statuscolumn = { enabled = true },
+-- 		-- words = { enabled = true },
+-- 	},
+-- 	-- keys = {
+-- 	-- 	{
+-- 	-- 		"<leader>gg",
+-- 	-- 		function()
+-- 	-- 			Snacks.lazygit()
+-- 	-- 		end,
+-- 	-- 		desc = "Lazygit",
+-- 	-- 	},
+-- 	-- 	-- find
+-- 	-- 	{
+-- 	-- 		"<leader>fb",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.buffers()
+-- 	-- 		end,
+-- 	-- 		desc = "Buffers",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>fc",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+-- 	-- 		end,
+-- 	-- 		desc = "Find Config File",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader><space>",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.files()
+-- 	-- 		end,
+-- 	-- 		desc = "Find Files",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>fr",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.recent()
+-- 	-- 		end,
+-- 	-- 		desc = "Recent",
+-- 	-- 	},
+-- 	-- 	-- Grep
+-- 	-- 	{
+-- 	-- 		"<leader>sB",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.grep_buffers()
+-- 	-- 		end,
+-- 	-- 		desc = "Grep Open Buffers",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>sg",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.grep()
+-- 	-- 		end,
+-- 	-- 		desc = "Grep",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>sa",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.autocmds()
+-- 	-- 		end,
+-- 	-- 		desc = "Autocmds",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>sk",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.keymaps()
+-- 	-- 		end,
+-- 	-- 		desc = "Keymaps",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>sm",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.marks()
+-- 	-- 		end,
+-- 	-- 		desc = "Marks",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>sp",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.lazy()
+-- 	-- 		end,
+-- 	-- 		desc = "Search for Plugin Spec",
+-- 	-- 	},
+-- 	-- 	{
+-- 	-- 		"<leader>uC",
+-- 	-- 		function()
+-- 	-- 			Snacks.picker.colorschemes()
+-- 	-- 		end,
+-- 	-- 		desc = "Colorschemes",
+-- 	-- 	},
+-- 	-- },
+-- }

@@ -9,5 +9,18 @@ return {
 	lazy = false,
 	---@module 'neo-tree'
 	---@type neotree.Config
-	opts = {},
+	opts = {
+		window = {
+			mappings = {
+				["<space>"] = "",
+			},
+		},
+	},
+	config = function(_, opts)
+		require("neo-tree").setup(opts)
+
+		vim.keymap.set("n", "<leader>e", function()
+			vim.cmd("Neotree toggle")
+		end)
+	end,
 }
