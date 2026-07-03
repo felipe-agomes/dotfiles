@@ -31,4 +31,8 @@ vim.keymap.set("n", "<leader>rw", function()
 	vim.cmd([[keeppatterns %s/\s\+$//e]])
 	vim.fn.winrestview(save_cursor)
 end, { desc = "Remover trailing whitespaces" })
+
+vim.keymap.set("n", "<leader>rh", function()
+	vim.cmd("nohlsearch")
+end)
 -- Remove
