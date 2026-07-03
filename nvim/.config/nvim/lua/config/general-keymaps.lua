@@ -31,15 +31,32 @@ vim.keymap.set("n", "<leader>rw", function()
 	vim.cmd([[keeppatterns %s/\s\+$//e]])
 	vim.fn.winrestview(save_cursor)
 end, { desc = "Remover trailing whitespaces" })
-
-vim.keymap.set("n", "<leader>rh", function()
-	vim.cmd("nohlsearch")
-end)
 -- Remove
 
 -- Window
-vim.keymap.set("n", "<C-h>", [[<Cmd>wincmd h<CR>]])
-vim.keymap.set("n", "<C-j>", [[<Cmd>wincmd j<CR>]])
-vim.keymap.set("n", "<C-k>", [[<Cmd>wincmd k<CR>]])
-vim.keymap.set("n", "<C-l>", [[<Cmd>wincmd l<CR>]])
+vim.keymap.set("n", "<C-l>", "<C-W>l")
+vim.keymap.set("n", "<C-h>", "<C-W>h")
+vim.keymap.set("n", "<C-k>", "<C-W>k")
+vim.keymap.set("n", "<C-j>", "<C-W>j")
 -- Window
+
+-- Resize
+vim.keymap.set("n", "<C-Left>", function()
+	vim.cmd("vertical resize -5")
+end)
+vim.keymap.set("n", "<C-Right>", function()
+	vim.cmd("vertical resize +5")
+end)
+vim.keymap.set("n", "<C-Down>", function()
+	vim.cmd("horizontal resize -5")
+end)
+vim.keymap.set("n", "<C-Up>", function()
+	vim.cmd("horizontal resize +5")
+end)
+-- Resize
+
+-- General
+vim.keymap.set("n", "<Esc>", function()
+	vim.cmd("nohlsearch")
+end)
+-- General
