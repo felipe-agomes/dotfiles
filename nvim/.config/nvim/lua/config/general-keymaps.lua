@@ -6,13 +6,13 @@ vim.keymap.set("n", "<leader>yf", function()
 end, { desc = "Yank Filename" })
 
 vim.keymap.set("n", "<leader>yp", function()
-	local path = vim.fn.expand("%")
+	local path = vim.fn.expand("%:p:h")
 
 	vim.fn.setreg("+", path)
 end, { desc = "Yank Path" })
 
 vim.keymap.set("n", "<leader>yP", function()
-	local path = vim.fn.expand("%")
+	local path = vim.fn.expand("%:p:h")
 	local windows_path = "\\\\wsl.localhost\\Ubuntu-22.04" .. string.gsub(path, "/", "\\")
 
 	vim.fn.setreg("+", windows_path)
