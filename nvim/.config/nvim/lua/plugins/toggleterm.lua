@@ -62,8 +62,15 @@ return {
 		vim.api.nvim_create_autocmd("TermOpen", {
 			pattern = "term://*",
 			callback = function(args)
+				local bufname = vim.api.nvim_buf_get_name(args.buf)
+				local is_lazygit = bufname:match("lazygit") ~= nil
+
 				local map_opts = { buffer = args.buf }
-				vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], map_opts)
+
+				if not is_lazygit then
+					vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], map_opts)
+				end
+
 				vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], map_opts)
 				vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], map_opts)
 				vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], map_opts)
