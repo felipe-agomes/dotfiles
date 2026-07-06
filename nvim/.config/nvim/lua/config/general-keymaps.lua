@@ -1,17 +1,19 @@
+local map = vim.keymap.set
+
 -- Yank
-vim.keymap.set("n", "<leader>yf", function()
+map("n", "<leader>yf", function()
 	local filename = vim.fn.expand("%:t")
 
 	vim.fn.setreg("+", filename)
 end, { desc = "Yank Filename" })
 
-vim.keymap.set("n", "<leader>yp", function()
+map("n", "<leader>yp", function()
 	local path = vim.fn.expand("%:p:h")
 
 	vim.fn.setreg("+", path)
 end, { desc = "Yank Path" })
 
-vim.keymap.set("n", "<leader>yP", function()
+map("n", "<leader>yP", function()
 	local path = vim.fn.expand("%:p:h")
 	local windows_path = "\\\\wsl.localhost\\Ubuntu-22.04" .. string.gsub(path, "/", "\\")
 
@@ -20,13 +22,13 @@ end, { desc = "Yank Windows Path in WSL" })
 -- Yank
 
 -- Remove
-vim.keymap.set("n", "<leader>rc", function()
+map("n", "<leader>rc", function()
 	local save_cursor = vim.fn.winsaveview()
 	vim.cmd([[keeppatterns %s/\r//e]])
 	vim.fn.winrestview(save_cursor)
 end, { desc = "Remove Carriage Return" })
 
-vim.keymap.set("n", "<leader>rw", function()
+map("n", "<leader>rw", function()
 	local save_cursor = vim.fn.winsaveview()
 	vim.cmd([[keeppatterns %s/\s\+$//e]])
 	vim.fn.winrestview(save_cursor)
@@ -34,30 +36,36 @@ end, { desc = "Remover trailing whitespaces" })
 -- Remove
 
 -- Window
-vim.keymap.set("n", "<C-l>", "<C-W>l")
-vim.keymap.set("n", "<C-h>", "<C-W>h")
-vim.keymap.set("n", "<C-k>", "<C-W>k")
-vim.keymap.set("n", "<C-j>", "<C-W>j")
+map("n", "<C-l>", "<C-W>l")
+map("n", "<C-h>", "<C-W>h")
+map("n", "<C-k>", "<C-W>k")
+map("n", "<C-j>", "<C-W>j")
 -- Window
 
 -- Resize
-vim.keymap.set("n", "<C-Left>", function()
+map("n", "<C-Left>", function()
 	vim.cmd("vertical resize -5")
 end)
-vim.keymap.set("n", "<C-Right>", function()
+map("n", "<C-Right>", function()
 	vim.cmd("vertical resize +5")
 end)
-vim.keymap.set("n", "<C-Down>", function()
+map("n", "<C-Down>", function()
 	vim.cmd("horizontal resize -5")
 end)
-vim.keymap.set("n", "<C-Up>", function()
+map("n", "<C-Up>", function()
 	vim.cmd("horizontal resize +5")
 end)
 -- Resize
 
 -- General
-vim.keymap.set("n", "<Esc>", function()
+map("n", "<Esc>", function()
 	vim.cmd("nohlsearch")
 end)
-vim.keymap.set("n", "<C-z>", "<Nop>")
+map("n", "<C-z>", "<Nop>")
+map("n", "<C-d>", "<C-d>zz", { desc = "Half page down + center" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Half page up + center" })
+map("n", "n", "nzz", { desc = "Next search result + center" })
+map("n", "N", "Nzz", { desc = "Previous search result + center" })
+map("n", "*", "*zz", { desc = "Search word forward + center" })
+map("n", "#", "#zz", { desc = "Search word backward + center" })
 -- General

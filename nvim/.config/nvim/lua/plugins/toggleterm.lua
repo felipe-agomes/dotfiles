@@ -36,12 +36,34 @@ return {
 			toggleterm.send_lines_to_terminal("visual_selection", trim_spaces, { args = vim.v.count })
 		end, { desc = "Terminal: Send Visual Selection" })
 
+		vim.keymap.set("n", "<leader>gg", function()
+			local Terminal = require("toggleterm.terminal").Terminal
+			local lazygit = Terminal:new({
+				cmd = "lazygit",
+				dir = "git_dir",
+				direction = "float",
+				float_opts = {
+					border = "double",
+				},
+				-- function to run on opening the terminal
+				on_open = function(term)
+					vim.cmd("startinsert!")
+					vim.keymap.set("n", "q", "<cmd>close<CR>", { silent = true, buf = term.bufnr })
+				end,
+				-- function to run on closing the terminal
+				on_close = function(term)
+					vim.cmd("startinsert!")
+				end,
+			})
+
+			lazygit:toggle()
+		end, { silent = true, desc = "LazyGit" })
+
 		vim.api.nvim_create_autocmd("TermOpen", {
 			pattern = "term://*",
 			callback = function(args)
 				local map_opts = { buffer = args.buf }
 				vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], map_opts)
-				vim.keymap.set("t", "jk", [[<C-\><C-n>]], map_opts)
 				vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], map_opts)
 				vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], map_opts)
 				vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], map_opts)

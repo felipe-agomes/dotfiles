@@ -15,6 +15,8 @@ return {
 				["<space>"] = "",
 				["z"] = "",
 				["<BS>"] = "close_all_nodes",
+				["l"] = "open",
+				["h"] = "close_node",
 			},
 		},
 	},
