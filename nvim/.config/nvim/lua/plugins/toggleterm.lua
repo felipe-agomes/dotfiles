@@ -45,12 +45,10 @@ return {
 				float_opts = {
 					border = "double",
 				},
-				-- function to run on opening the terminal
 				on_open = function(term)
 					vim.cmd("startinsert!")
 					vim.keymap.set("n", "q", "<cmd>close<CR>", { silent = true, buf = term.bufnr })
 				end,
-				-- function to run on closing the terminal
 				on_close = function(term)
 					vim.cmd("startinsert!")
 				end,

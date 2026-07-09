@@ -10,6 +10,12 @@ return {
 	---@module 'neo-tree'
 	---@type neotree.Config
 	opts = {
+		filesystem = {
+			follow_current_file = {
+				enabled = true,
+				leave_dirs_open = true,
+			},
+		},
 		window = {
 			mappings = {
 				["<space>"] = "",

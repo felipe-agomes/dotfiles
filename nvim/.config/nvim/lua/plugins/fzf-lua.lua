@@ -95,6 +95,14 @@ return {
 		vim.keymap.set("n", "<leader>sr", function()
 			fzf_lua.resume()
 		end, { desc = "Search: Resume" })
+
+		vim.keymap.set("n", "<leader>sp", function()
+			fzf_lua.files({ cwd = "~/.config/nvim/lua/plugins" })
+		end, { desc = "Search: Neovim Plugins" })
+
+		vim.keymap.set("n", "<leader>sM", function()
+			fzf_lua.manpages()
+		end, { desc = "Search: Man mapges" })
 		-- SEARCH
 
 		-- FIND
@@ -102,17 +110,9 @@ return {
 			fzf_lua.files()
 		end, { desc = "File: Files (Project)" })
 
-		vim.keymap.set("n", "<leader>fm", function()
-			fzf_lua.manpages()
-		end, { desc = "Find: Man mapges" })
-
 		vim.keymap.set("n", "<leader>fb", function()
 			fzf_lua.buffers()
 		end, { desc = "Find: Buffers" })
-
-		vim.keymap.set("n", "<leader>fp", function()
-			fzf_lua.files({ cwd = "~/.config/nvim/lua/plugins" })
-		end, { desc = "Find: Neovim Plugins" })
 
 		vim.keymap.set("n", "<leader>fc", function()
 			fzf_lua.files({ cwd = "~/.config/nvim" })
