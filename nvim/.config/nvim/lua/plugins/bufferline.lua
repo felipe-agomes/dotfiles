@@ -4,10 +4,13 @@ return {
 	dependencies = "nvim-tree/nvim-web-devicons",
 	opts = {},
 	config = function(_, opts)
-		require("bufferline").setup(opts)
+		local bufferline = require("bufferline")
+		bufferline.setup(opts)
 
 		vim.keymap.set("n", "<leader>bd", function()
-			vim.api.nvim_buf_delete(0, { force = false })
+			local buf = vim.api.nvim_get_current_buf()
+			bufferline.cycle(1)
+			vim.api.nvim_buf_delete(buf, { force = false })
 		end, { desc = "Delete Buffer" })
 
 		vim.keymap.set("n", "<leader>bo", function()
