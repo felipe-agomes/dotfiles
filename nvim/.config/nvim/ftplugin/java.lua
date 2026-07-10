@@ -1,3 +1,5 @@
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls-workspace/" .. project_name
 -- See `:help vim.lsp.start` for an overview of the supported `config` options.
 local config = {
 	name = "jdtls",
@@ -8,17 +10,22 @@ local config = {
 	-- As alternative you could also avoid the `jdtls` wrapper and launch
 	-- eclipse.jdt.ls via the `java` executable
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-	cmd = { "jdtls" },
+	cmd = { "jdtls", "-data", workspace_dir },
 
 	-- `root_dir` must point to the root of your project.
 	-- See `:help vim.fs.root`
 	root_dir = vim.fs.root(0, { "gradlew", ".git", "mvnw" }),
-
 	-- Here you can configure eclipse.jdt.ls specific settings
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 	-- for a list of options
 	settings = {
-		java = {},
+		java = {
+      project = {
+        resourceFilters = {
+          "xcape"
+        }
+      }
+    },
 	},
 
 	-- This sets the `initializationOptions` sent to the language server
