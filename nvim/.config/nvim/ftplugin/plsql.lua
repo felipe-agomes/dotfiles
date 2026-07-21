@@ -1,2 +1,3 @@
-vim.cmd("runtime! ftplugin/sql.lua")
+require("config.db-setup").setup()
+
 vim.bo.commentstring = "-- %s"

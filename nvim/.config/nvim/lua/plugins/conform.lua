@@ -4,6 +4,9 @@ return {
 		formatters_by_ft = {
 			lua = { "stylua" },
 			javascript = { "prettierd" },
+			c = { "clang-format" },
+			cpp = { "clang-format" },
+			java = { "google-java-format" },
 		},
 	},
 	config = function(_, opts)

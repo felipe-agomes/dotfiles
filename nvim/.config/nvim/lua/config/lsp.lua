@@ -64,3 +64,4 @@ map("n", "grco", vim.lsp.buf.outgoing_calls, {
 
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("vtsls")
+vim.lsp.enable("clangd")

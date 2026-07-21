@@ -31,6 +31,6 @@ return {
 
 		vim.keymap.set("n", "<leader>e", function()
 			vim.cmd("Neotree toggle")
-		end)
+		end, {desc = "Open File Tree"})
 	end,
 }

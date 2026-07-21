@@ -110,7 +110,7 @@ return {
 			fzf_lua.buffers()
 		end, { desc = "Find: Buffers" })
 
-		vim.keymap.set("n", "<leader>cp", function()
+		vim.keymap.set("n", "<leader>fp", function()
 			fzf_lua.files({ cwd = vim.fn.stdpath("config") .. "/lua/plugins" })
 		end, { desc = "Find: Neovim Plugins" })
 

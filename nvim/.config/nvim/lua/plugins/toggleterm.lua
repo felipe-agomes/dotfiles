@@ -10,29 +10,29 @@ return {
 		toggleterm.setup(opts)
 		local trim_spaces = true
 
-		vim.keymap.set("n", "<leader>ts", function()
+		vim.keymap.set("n", "<leader>\\s", function()
 			vim.cmd("TermSelect")
 		end, { desc = "Terminal: Select" })
 
-		vim.keymap.set("n", "<leader>tn", function()
+		vim.keymap.set("n", "<leader>\\n", function()
 			vim.cmd("ToggleTermSetName")
 		end, { desc = "Terminal: Set Name" })
 
-		vim.keymap.set("n", "<leader>t1", function()
+		vim.keymap.set("n", "<leader>\\1", function()
 			vim.cmd("1ToggleTerm")
 		end, { desc = "Terminal 1" })
-		vim.keymap.set("n", "<leader>t2", function()
+		vim.keymap.set("n", "<leader>\\2", function()
 			vim.cmd("2ToggleTerm")
 		end, { desc = "Terminal 2" })
-		vim.keymap.set("n", "<leader>t3", function()
+		vim.keymap.set("n", "<leader>\\3", function()
 			vim.cmd("3ToggleTerm")
 		end, { desc = "Terminal 3" })
 
-		vim.keymap.set("v", "<leader>tl", function()
+		vim.keymap.set("v", "<leader>\\l", function()
 			toggleterm.send_lines_to_terminal("visual_lines", trim_spaces, { args = vim.v.count })
 		end, { desc = "Terminal: Send Visual Lines" })
 
-		vim.keymap.set("v", "<leader>tv", function()
+		vim.keymap.set("v", "<leader>\\v", function()
 			toggleterm.send_lines_to_terminal("visual_selection", trim_spaces, { args = vim.v.count })
 		end, { desc = "Terminal: Send Visual Selection" })
 

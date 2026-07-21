@@ -57,6 +57,18 @@ map("n", "<C-Up>", function()
 end)
 -- Resize
 
+-- TOGGLE
+vim.keymap.set("n", "<leader>te", function()
+	if vim.o.virtualedit == "all" then
+		vim.o.virtualedit = "block"
+		print("Virtualedit: OFF")
+	else
+		vim.o.virtualedit = "all"
+		print("Virtualedit: ON")
+	end
+end, { desc = "Toggle: Virtualedit" })
+-- TOGGLE
+
 -- General
 map("n", "<Esc>", function()
 	vim.cmd("nohlsearch")
