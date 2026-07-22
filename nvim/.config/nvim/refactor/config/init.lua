@@ -1,6 +1,0 @@
-require("config.general")
-require("config.keymaps")
-require("config.lazy")
-require("config.autocmd")
-require("config.cheat_sheet_cmd")
-require("config.lsp")

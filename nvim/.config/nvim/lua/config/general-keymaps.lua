@@ -5,20 +5,20 @@ map("n", "<leader>yf", function()
 	local filename = vim.fn.expand("%:t")
 
 	vim.fn.setreg("+", filename)
-end, { desc = "Yank Filename" })
+end, { desc = "Yank: Filename" })
 
 map("n", "<leader>yp", function()
 	local path = vim.fn.expand("%:p")
 
 	vim.fn.setreg("+", path)
-end, { desc = "Yank Path" })
+end, { desc = "Yank: Path" })
 
 map("n", "<leader>yP", function()
 	local path = vim.fn.expand("%:p")
 	local windows_path = "\\\\wsl.localhost\\Ubuntu-22.04" .. string.gsub(path, "/", "\\")
 
 	vim.fn.setreg("+", windows_path)
-end, { desc = "Yank Windows Path in WSL" })
+end, { desc = "Yank: Windows Path in WSL" })
 -- Yank
 
 -- Remove
@@ -26,13 +26,13 @@ map("n", "<leader>rc", function()
 	local save_cursor = vim.fn.winsaveview()
 	vim.cmd([[keeppatterns %s/\r//e]])
 	vim.fn.winrestview(save_cursor)
-end, { desc = "Remove Carriage Return" })
+end, { desc = "Remove: Carriage Return" })
 
 map("n", "<leader>rw", function()
 	local save_cursor = vim.fn.winsaveview()
 	vim.cmd([[keeppatterns %s/\s\+$//e]])
 	vim.fn.winrestview(save_cursor)
-end, { desc = "Remover trailing whitespaces" })
+end, { desc = "Remove: trailing whitespaces" })
 -- Remove
 
 -- Window
