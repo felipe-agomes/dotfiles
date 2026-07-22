@@ -43,9 +43,11 @@ local function wrap_long_lines()
 end
 
 function M.setup()
+	vim.opt_local.colorcolumn = "120"
+
 	vim.keymap.set("n", "grf", function()
 		wrap_long_lines()
-	end, { desc = "Format Buffer" })
+	end, { desc = "Format Buffer", buffer = true })
 end
 
 return M

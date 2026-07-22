@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-	vim.opt.shiftwidth = 4
+	vim.bo.shiftwidth = 4
 
 	local admrh = require("utils.admrh")
 

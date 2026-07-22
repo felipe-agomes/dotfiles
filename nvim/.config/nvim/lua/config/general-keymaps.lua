@@ -70,12 +70,12 @@ map("n", "<leader>te", function()
 	end
 end, { desc = "Toggle: Virtualedit" })
 map("n", "<leader>tc", function()
-	if vim.wo.colorcolumn ~= "" then
-		vim.wo.colorcolumn = ""
+	if vim.opt_local.colorcolumn ~= "" then
+		vim.opt_local.colorcolumn = ""
 
 		print("Colorcolumn: OFF")
 	else
-		vim.wo.colorcolumn = "120"
+		vim.opt_local.colorcolumn = "120"
 
 		print("Colorcolumn: ON")
 	end
