@@ -1,3 +1,1 @@
-require("config.db-setup").setup()
-
-vim.bo.commentstring = "-- %s"
+require("config.ftplugin-setup.db-setup").setup()

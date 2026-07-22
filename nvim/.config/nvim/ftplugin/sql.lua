@@ -1,1 +1,1 @@
-require("config.db-setup").setup()
+require("config.ftplugin-setup.db-setup").setup()

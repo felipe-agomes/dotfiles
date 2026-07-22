@@ -13,8 +13,14 @@ return {
 		local conform = require("conform")
 		conform.setup(opts)
 
-		vim.keymap.set("n", "grf", function()
-			conform.format()
-		end, { desc = "Format Buffer" })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("format-ft", { clear = true }),
+			pattern = vim.tbl_keys(opts.formatters_by_ft),
+			callback = function(_)
+				vim.keymap.set("n", "grf", function()
+					conform.format()
+				end, { desc = "Format Buffer" })
+			end,
+		})
 	end,
 }

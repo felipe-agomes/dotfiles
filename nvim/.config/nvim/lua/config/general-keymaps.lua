@@ -58,15 +58,28 @@ end)
 -- Resize
 
 -- TOGGLE
-vim.keymap.set("n", "<leader>te", function()
+map("n", "<leader>te", function()
 	if vim.o.virtualedit == "all" then
 		vim.o.virtualedit = "block"
+
 		print("Virtualedit: OFF")
 	else
 		vim.o.virtualedit = "all"
+
 		print("Virtualedit: ON")
 	end
 end, { desc = "Toggle: Virtualedit" })
+map("n", "<leader>tc", function()
+	if vim.wo.colorcolumn ~= "" then
+		vim.wo.colorcolumn = ""
+
+		print("Colorcolumn: OFF")
+	else
+		vim.wo.colorcolumn = "120"
+
+		print("Colorcolumn: ON")
+	end
+end, { desc = "Toggle: Colorcolumn" })
 -- TOGGLE
 
 -- General
