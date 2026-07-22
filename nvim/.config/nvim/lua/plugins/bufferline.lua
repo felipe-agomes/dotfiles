@@ -9,8 +9,8 @@ return {
 
 		vim.keymap.set("n", "<leader>bd", function()
 			local buf = vim.api.nvim_get_current_buf()
-			bufferline.cycle(1)
-			vim.api.nvim_buf_delete(buf, { force = false })
+			vim.cmd("BufferLineCycleNext")
+			vim.api.nvim_buf_delete(buf, { force = true })
 		end, { desc = "Delete Buffer" })
 
 		vim.keymap.set("n", "<leader>bo", function()
@@ -34,11 +34,11 @@ return {
 		end)
 
 		vim.keymap.set("n", "[B", function()
-			vim.cmd("BufferLineMovePrev")
+			vim.cmd("BufferLineMoveNext")
 		end, { desc = "Move buffer prev" })
 
 		vim.keymap.set("n", "]B", function()
-			vim.cmd("BufferLineMoveNext")
+			vim.cmd("BufferLineMovePrev")
 		end, { desc = "Move buffer next" })
 	end,
 }
