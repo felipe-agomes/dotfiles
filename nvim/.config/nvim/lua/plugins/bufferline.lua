@@ -2,7 +2,16 @@ return {
 	"akinsho/bufferline.nvim",
 	cwrsion = "*",
 	dependencies = "nvim-tree/nvim-web-devicons",
-	opts = {},
+	opts = {
+		options = {
+			themable = true,
+			diagnostics = "nvim_lsp",
+			diagnostics_update_on_event = true,
+			diagnostics_indicator = function(count)
+				return "(" .. count .. ")"
+			end,
+		},
+	},
 	config = function(_, opts)
 		local bufferline = require("bufferline")
 		bufferline.setup(opts)

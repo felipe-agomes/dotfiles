@@ -4,9 +4,11 @@ return {
 		formatters_by_ft = {
 			lua = { "stylua" },
 			javascript = { "prettierd" },
+			html = { "prettierd" },
 			c = { "clang-format" },
 			cpp = { "clang-format" },
 			java = { "google-java-format" },
+			xml = { "xmlformat" },
 		},
 	},
 	config = function(_, opts)

@@ -8,16 +8,14 @@ return {
 		"catppuccin/nvim",
 		lazy = false,
 		priority = 1000,
-		config = function()
-			vim.cmd("colorscheme catppuccin-frappe")
-
-			vim.api.nvim_set_hl(0, "Changed", { fg = "#e5c07b" })
-		end,
 	},
 	{
 		"rebelot/kanagawa.nvim",
 		lazy = false,
 		priority = 1000,
+		config = function()
+			vim.cmd("colorscheme kanagawa-wave")
+		end,
 	},
 	{
 		"rose-pine/neovim",
@@ -39,4 +37,5 @@ return {
 		lazy = false,
 		priority = 1000,
 	},
+	{ "dracula/vim", lazy = false, priority = 1000 },
 }
