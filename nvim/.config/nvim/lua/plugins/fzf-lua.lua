@@ -17,8 +17,6 @@ return {
 
 		fzf_lua.setup(opts)
 
-		fzf_lua.register_ui_select()
-
 		-- SEARCH
 		vim.keymap.set("n", "<leader>st", function()
 			fzf_lua.treesitter()
