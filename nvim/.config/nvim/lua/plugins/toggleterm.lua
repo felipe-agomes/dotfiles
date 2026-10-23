@@ -36,26 +36,26 @@ return {
 			toggleterm.send_lines_to_terminal("visual_selection", trim_spaces, { args = vim.v.count })
 		end, { desc = "Terminal: Send Visual Selection" })
 
-		vim.keymap.set("n", "<leader>gg", function()
-			local Terminal = require("toggleterm.terminal").Terminal
-			local lazygit = Terminal:new({
-				cmd = "lazygit",
-				dir = "git_dir",
-				direction = "float",
-				float_opts = {
-					border = "double",
-				},
-				on_open = function(term)
-					vim.cmd("startinsert!")
-					vim.keymap.set("n", "q", "<cmd>close<CR>", { silent = true, buf = term.bufnr })
-				end,
-				on_close = function(term)
-					vim.cmd("startinsert!")
-				end,
-			})
-
-			lazygit:toggle()
-		end, { silent = true, desc = "LazyGit" })
+		-- vim.keymap.set("n", "<leader>gg", function()
+		-- 	local Terminal = require("toggleterm.terminal").Terminal
+		-- 	local lazygit = Terminal:new({
+		-- 		cmd = "lazygit",
+		-- 		dir = "git_dir",
+		-- 		direction = "float",
+		-- 		float_opts = {
+		-- 			border = "double",
+		-- 		},
+		-- 		on_open = function(term)
+		-- 			vim.cmd("startinsert!")
+		-- 			vim.keymap.set("n", "q", "<cmd>close<CR>", { silent = true, buf = term.bufnr })
+		-- 		end,
+		-- 		on_close = function(term)
+		-- 			vim.cmd("startinsert!")
+		-- 		end,
+		-- 	})
+		--
+		-- 	lazygit:toggle()
+		-- end, { silent = true, desc = "LazyGit" })
 
 		vim.api.nvim_create_autocmd("TermOpen", {
 			pattern = "term://*",
