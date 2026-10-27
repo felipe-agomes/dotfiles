@@ -7,5 +7,10 @@ local config = {
 	init_options = {
 		bundles = {},
 	},
+	 on_attach = function(client, _)
+		if client.server_capabilities then
+			client.server_capabilities.semanticTokensProvider = nil
+		end
+	end,
 }
 require("jdtls").start_or_attach(config)
