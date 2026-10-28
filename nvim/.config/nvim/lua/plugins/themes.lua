@@ -21,6 +21,10 @@ return {
 					Boolean = { fg = "#ff7733", bold = false },
 					SnacksPickerFile = { fg = "#dcd7ba" },
 					DiagnosticWarn = { fg = "#ff7733" },
+					Operator = { fg = "#957fb8" },
+					Special = { fg = "#5bbbd5" },
+					Type = { fg = "#5bbbd5" },
+          Function = {fg = "#7e8fff"}
 				}
 			end,
 		},
