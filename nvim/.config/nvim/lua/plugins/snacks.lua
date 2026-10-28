@@ -44,6 +44,20 @@ return {
 			end,
 			desc = "Lazygit",
 		},
+		{
+			"<leader>tz",
+			function()
+				Snacks.zen()
+			end,
+			desc = "Toggle: Zen Mode",
+		},
+		{
+			"<leader>tZ",
+			function()
+				Snacks.zen.zoom()
+			end,
+			desc = "Toggle: Zen Mode Zoom",
+		},
 		-- 	{
 		-- 		"<leader>gg",
 		-- 		function()
