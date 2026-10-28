@@ -10,17 +10,51 @@ return {
 		-- image = { enabled = true },
 		-- bigfile = { enabled = true },
 		-- dashboard = { enabled = true },
-		-- indent = { enabled = true },
+		indent = {
+			enabled = true,
+			priority = 1,
+			char = "│",
+			only_scope = false,
+			only_current = false,
+			hl = "SnacksIndent",
+			animate = {
+				enabled = true,
+				style = "out",
+				easing = "linear",
+				duration = {
+					step = 20,
+					total = 300,
+				},
+			},
+			chunk = {
+				enabled = true,
+				only_current = false,
+				priority = 200,
+				hl = "SnacksIndentChunk",
+				char = {
+					corner_top = "╭",
+					corner_bottom = "╰",
+					horizontal = "─",
+					vertical = "│",
+					arrow = ">",
+				},
+			},
+		},
 		explorer = { enabled = true },
 		input = { enabled = true },
 		picker = { enabled = true },
 		notifier = { enabled = true },
 		lazygit = { enabled = true },
-		-- quickfile = { enabled = true },
-		-- scope = { enabled = true },
-		-- scroll = { enabled = true },
-		-- statuscolumn = { enabled = true },
-		-- words = { enabled = true },
+		scope = {
+			enabled = true,
+			priority = 200,
+			char = "│",
+			underline = true,
+			only_current = false,
+			hl = "SnacksIndentScope",
+		},
+		statuscolumn = { enabled = true },
+		words = { enabled = true },
 	},
 	keys = {
 		{
@@ -58,91 +92,30 @@ return {
 			end,
 			desc = "Toggle: Zen Mode Zoom",
 		},
-		-- 	{
-		-- 		"<leader>gg",
-		-- 		function()
-		-- 			Snacks.lazygit()
-		-- 		end,
-		-- 		desc = "Lazygit",
-		-- 	},
-		-- 	-- find
-		-- 	{
-		-- 		"<leader>fb",
-		-- 		function()
-		-- 			Snacks.picker.buffers()
-		-- 		end,
-		-- 		desc = "Buffers",
-		-- 	},
-		-- 	{
-		-- 		"<leader>fc",
-		-- 		function()
-		-- 			Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
-		-- 		end,
-		-- 		desc = "Find Config File",
-		-- 	},
-		-- 	{
-		-- 		"<leader><space>",
-		-- 		function()
-		-- 			Snacks.picker.files()
-		-- 		end,
-		-- 		desc = "Find Files",
-		-- 	},
-		-- 	{
-		-- 		"<leader>fr",
-		-- 		function()
-		-- 			Snacks.picker.recent()
-		-- 		end,
-		-- 		desc = "Recent",
-		-- 	},
-		-- 	-- Grep
-		-- 	{
-		-- 		"<leader>sB",
-		-- 		function()
-		-- 			Snacks.picker.grep_buffers()
-		-- 		end,
-		-- 		desc = "Grep Open Buffers",
-		-- 	},
-		-- 	{
-		-- 		"<leader>sg",
-		-- 		function()
-		-- 			Snacks.picker.grep()
-		-- 		end,
-		-- 		desc = "Grep",
-		-- 	},
-		-- 	{
-		-- 		"<leader>sa",
-		-- 		function()
-		-- 			Snacks.picker.autocmds()
-		-- 		end,
-		-- 		desc = "Autocmds",
-		-- 	},
-		-- 	{
-		-- 		"<leader>sk",
-		-- 		function()
-		-- 			Snacks.picker.keymaps()
-		-- 		end,
-		-- 		desc = "Keymaps",
-		-- 	},
-		-- 	{
-		-- 		"<leader>sm",
-		-- 		function()
-		-- 			Snacks.picker.marks()
-		-- 		end,
-		-- 		desc = "Marks",
-		-- 	},
-		-- 	{
-		-- 		"<leader>sp",
-		-- 		function()
-		-- 			Snacks.picker.lazy()
-		-- 		end,
-		-- 		desc = "Search for Plugin Spec",
-		-- 	},
-		-- 	{
-		-- 		"<leader>uC",
-		-- 		function()
-		-- 			Snacks.picker.colorschemes()
-		-- 		end,
-		-- 		desc = "Colorschemes",
-		-- 	},
+		{
+			"]]",
+			function()
+				Snacks.words.jump(1, true)
+			end,
+			desc = "Próxima referência",
+		},
+		{
+			"[[",
+			function()
+				Snacks.words.jump(-1, true)
+			end,
+			desc = "Referência anterior",
+		},
+		{
+			"<leader>tw",
+			function()
+				if Snacks.words.is_enabled() then
+					Snacks.words.disable()
+				else
+					Snacks.words.enable()
+				end
+			end,
+			desc = "Toggle: Words",
+		},
 	},
 }

@@ -24,13 +24,12 @@ return {
 					Operator = { fg = "#957fb8" },
 					Special = { fg = "#5bbbd5" },
 					Type = { fg = "#5bbbd5" },
-          Function = {fg = "#7e8fff"}
+					Function = { fg = "#7e8fff" },
 				}
 			end,
 		},
 		config = function(_, opts)
 			require("kanagawa").setup(opts)
-
 			vim.cmd("colorscheme kanagawa-wave")
 		end,
 	},
