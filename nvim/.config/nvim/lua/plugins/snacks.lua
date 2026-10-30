@@ -26,6 +26,20 @@ return {
 					total = 300,
 				},
 			},
+			scope = {
+				enabled = true,
+				priority = 200,
+				char = "│",
+				underline = true,
+				only_current = false,
+				hl = "SnacksIndentScope",
+				treesitter = { enabled = true },
+				filter = function(buf)
+					if vim.bo[buf].filetype == "sql" and vim.b[buf].snacks_scope == true then
+						vim.b[buf].snacks_scope = false
+					end
+				end,
+			},
 			chunk = {
 				enabled = true,
 				only_current = false,
@@ -45,14 +59,6 @@ return {
 		picker = { enabled = true },
 		notifier = { enabled = true },
 		lazygit = { enabled = true },
-		scope = {
-			enabled = true,
-			priority = 200,
-			char = "│",
-			underline = true,
-			only_current = false,
-			hl = "SnacksIndentScope",
-		},
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 	},
