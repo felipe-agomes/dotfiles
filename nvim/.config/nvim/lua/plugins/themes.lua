@@ -1,13 +1,11 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"catppuccin/nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"rebelot/kanagawa.nvim",
@@ -35,23 +33,19 @@ return {
 	},
 	{
 		"rose-pine/neovim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"sainnhe/gruvbox-material",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"ribru17/bamboo.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"Rigellute/shades-of-purple.vim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
-	{ "dracula/vim", lazy = false, priority = 1000 },
+	{ "dracula/vim", lazy = true },
 }

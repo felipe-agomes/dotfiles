@@ -56,8 +56,9 @@ return {
 		},
 		explorer = { enabled = true },
 		input = { enabled = true },
-		picker = { enabled = true },
-		notifier = { enabled = true },
+		-- Busca é feita pelo fzf-lua e notificações pelo noice/nvim-notify.
+		picker = { enabled = false },
+		notifier = { enabled = false },
 		lazygit = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
@@ -69,13 +70,6 @@ return {
 				Snacks.explorer()
 			end,
 			desc = "File Explorer",
-		},
-		{
-			"<leader>n",
-			function()
-				Snacks.picker.notifications()
-			end,
-			desc = "Notification History",
 		},
 		{
 			"<leader>gg",

@@ -59,7 +59,7 @@ return {
 		end, { desc = "Search: Command History" })
 
 		vim.keymap.set("n", "<leader>sS", function()
-			fzf_lua.command_history()
+			fzf_lua.search_history()
 		end, { desc = "Search: Search History" })
 
 		vim.keymap.set("n", "<leader>sm", function()

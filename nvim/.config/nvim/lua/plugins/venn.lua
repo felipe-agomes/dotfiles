@@ -5,6 +5,7 @@ return {
 			if not vim.b.venn_enabled then
 				vim.b.venn_enabled = true
         vim.o.virtualedit = "all"
+        Snacks.indent.disable()
 
 				vim.keymap.set("n", "J", "<C-v>j:VBox<CR>", { buffer = true, silent = true })
 				vim.keymap.set("n", "K", "<C-v>k:VBox<CR>", { buffer = true, silent = true })
@@ -14,15 +15,15 @@ return {
 
 				print("Venn Diagram: ON")
 			else
+				vim.b.venn_enabled = nil
         vim.o.virtualedit = "block"
+        Snacks.indent.enable()
 
 				vim.keymap.del("n", "J", { buffer = true })
 				vim.keymap.del("n", "K", { buffer = true })
 				vim.keymap.del("n", "L", { buffer = true })
 				vim.keymap.del("n", "H", { buffer = true })
 				vim.keymap.del("v", "f", { buffer = true })
-
-				vim.b.venn_enabled = nil
 
 				print("Venn Diagram: OFF")
 			end
