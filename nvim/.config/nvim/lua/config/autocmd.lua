@@ -14,6 +14,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"http",
 		"sh",
 		"zsh",
+		"markdown",
 	},
 	callback = function()
 		vim.treesitter.language.register("bash", "zsh")

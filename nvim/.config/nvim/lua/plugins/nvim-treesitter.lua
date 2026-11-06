@@ -20,6 +20,8 @@ return {
 			"javascript",
 			"typescript",
 			"bash",
+			"markdown",
+			"markdown_inline",
 		})
 	end,
 }
