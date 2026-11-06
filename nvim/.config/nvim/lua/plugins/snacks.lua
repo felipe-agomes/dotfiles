@@ -56,8 +56,7 @@ return {
 		},
 		explorer = { enabled = true },
 		input = { enabled = true },
-		-- Busca é feita pelo fzf-lua e notificações pelo noice/nvim-notify.
-		picker = { enabled = false },
+		picker = { enabled = true, ui_select = true },
 		notifier = { enabled = false },
 		lazygit = { enabled = true },
 		statuscolumn = { enabled = true },
