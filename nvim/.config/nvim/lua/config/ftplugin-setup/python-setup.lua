@@ -1,5 +1,20 @@
 local M = {}
 
+function M.setup()
+	vim.lsp.config("basedpyright", {
+		settings = {
+			basedpyright = {
+				analysis = {
+					autoSearchPaths = true,
+					diagnosticMode = "openFilesOnly",
+					useLibraryCodeForTypes = true,
+					typeCheckingMode = "standard",
+				},
+			},
+		},
+	})
+end
+
 local function debugpy_python()
 	local adapter = vim.fn.exepath("debugpy-adapter")
 
