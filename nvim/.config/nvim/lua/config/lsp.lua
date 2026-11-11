@@ -62,6 +62,20 @@ map("n", "grco", vim.lsp.buf.outgoing_calls, {
 	silent = true,
 })
 
+vim.lsp.config("basedpyright", {
+	settings = {
+		basedpyright = {
+			analysis = {
+				autoSearchPaths = true,
+				diagnosticMode = "openFilesOnly",
+				useLibraryCodeForTypes = true,
+				typeCheckingMode = "standard",
+			},
+		},
+	},
+})
+
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("vtsls")
 vim.lsp.enable("clangd")
+vim.lsp.enable("basedpyright")

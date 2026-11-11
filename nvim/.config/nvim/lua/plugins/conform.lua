@@ -9,6 +9,7 @@ return {
 			cpp = { "clang-format" },
 			java = { "google-java-format" },
 			xml = { "xmlformat" },
+			python = { "ruff_organize_imports", "ruff_format" },
 		},
 	},
 	config = function(_, opts)
