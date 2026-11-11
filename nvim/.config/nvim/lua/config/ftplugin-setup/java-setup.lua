@@ -31,12 +31,11 @@ function M.setup()
 		name = "jdtls",
 		cmd = { "jdtls", "-data", workspace_dir },
 		root_dir = vim.fs.root(0, {
-			"gradlew",
-			"mvnw",
-			".git",
 			"pom.xml",
 			"build.gradle",
 			"build.gradle.kts",
+			"gradlew",
+			".git",
 		}),
 		init_options = {
 			bundles = bundles,
