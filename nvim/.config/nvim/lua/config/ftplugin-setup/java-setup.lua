@@ -1,5 +1,7 @@
 local M = {}
 
+local admrh = require("config.ftplugin-setup.java-admrh-setup")
+
 local function mason_bundles(pattern)
 	return vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/" .. pattern, false, true)
 end
@@ -27,6 +29,8 @@ function M.setup()
 
 	vim.list_extend(bundles, test_bundles)
 
+	local admrh_config = admrh.config(0)
+
 	local config = {
 		name = "jdtls",
 		cmd = { "jdtls", "-data", workspace_dir },
@@ -45,6 +49,10 @@ function M.setup()
 				client.server_capabilities.semanticTokensProvider = nil
 			end
 
+			if admrh_config then
+				admrh.on_attach(client)
+			end
+
 			if #test_bundles == 0 then
 				return
 			end
@@ -58,6 +66,13 @@ function M.setup()
 			end, { buffer = true, desc = "Debug: Java test class" })
 		end,
 	}
+
+	if admrh_config then
+		config.root_dir = admrh_config.root_dir
+		config.cmd = admrh_config.cmd
+		config.settings = vim.tbl_deep_extend("force", config.settings or {}, admrh_config.settings or {})
+		admrh.setup_command()
+	end
 
 	require("jdtls").start_or_attach(config)
 end
