@@ -12,7 +12,6 @@ return {
 	opts = {
 		options = {
 			theme = "auto",
-			-- Evita statusline dentro do float do oil e dos pickers.
 			disabled_filetypes = {
 				statusline = { "oil", "snacks_picker_list", "snacks_explorer", "help" },
 			},
@@ -26,7 +25,6 @@ return {
 			lualine_y = {
 				{
 					"searchcount",
-					-- Remove os colchetes: [2/10] -> 2/10.
 					fmt = function(str)
 						return (str:gsub("[%[%]]", ""))
 					end,
