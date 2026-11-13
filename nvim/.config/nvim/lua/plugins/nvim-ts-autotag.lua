@@ -1,0 +1,9 @@
+return {
+	"windwp/nvim-ts-autotag",
+	event = { "BufReadPre", "BufNewFile" },
+	opts = {
+		aliases = {
+			xhtml = "xml",
+		},
+	},
+}

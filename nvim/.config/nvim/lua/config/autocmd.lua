@@ -10,6 +10,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"yaml",
 		"csv",
 		"xml",
+		"xhtml",
 		"json",
 		"http",
 		"sh",
@@ -21,6 +22,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.treesitter.language.register("bash", "zsh")
 		vim.treesitter.language.register("javascript", "javascriptreact")
 		vim.treesitter.language.register("typescript", "typescriptreact")
+		vim.treesitter.language.register("xml", "xhtml")
 
 		vim.treesitter.start()
 	end,
