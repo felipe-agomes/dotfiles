@@ -75,7 +75,8 @@ Ao adicionar um novo módulo global, inclua-o nessa sequência.
 - Vírgula final em tabelas.
 - Arquivos em `snake_case`.
 - Módulos auxiliares usam `local M = {}` e terminam com `return M`.
-- Comentários em português, curtos e apenas quando a intenção não é óbvia.
+- Sem comentários: o código deve ser autoexplicativo. Se um trecho precisa de
+  comentário para ser entendido, refatore para melhorar a legibilidade.
 - Evitar abstrações desnecessárias; preferir a forma recomendada pelo plugin.
 - Não editar `lazy-lock.json` manualmente.
 
@@ -179,7 +180,7 @@ return {
 
 ```lua
 vim.keymap.set("n", "grf", function()
-	-- ...
+	vim.lsp.buf.format({ async = true })
 end, { desc = "Format Buffer", buffer = true })
 ```
 
@@ -260,7 +261,6 @@ local M = {}
 
 function M.setup()
 	vim.opt_local.shiftwidth = 4
-	-- keymaps com buffer = true
 end
 
 return M
@@ -367,6 +367,7 @@ O comportamento foi removido intencionalmente para evitar floats inesperados.
 - Editar `lazy-lock.json` manualmente.
 - Reintroduzir `CursorHold` abrindo float de diagnóstico automaticamente.
 - Usar `<leader>dp`, `<leader>dd`, `<leader>dP` ou `<leader>dD` globalmente.
+- Manter comentários no código; se precisou explicar, falta legibilidade.
 
 ## Validação
 
