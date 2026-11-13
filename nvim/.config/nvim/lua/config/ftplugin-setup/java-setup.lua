@@ -2,6 +2,59 @@ local M = {}
 
 local admrh = require("config.ftplugin-setup.java-admrh-setup")
 
+local function is_jdt_resource(bufnr)
+	local name = vim.api.nvim_buf_get_name(bufnr or 0)
+
+	return name:match("^jdt://") ~= nil or name:match("%.class$") ~= nil
+end
+
+local function is_real_java_source(bufnr)
+	local buf = bufnr or 0
+	local name = vim.api.nvim_buf_get_name(buf)
+
+	return name ~= ""
+		and vim.startswith(name, "/")
+		and vim.bo[buf].buftype == ""
+		and not is_jdt_resource(buf)
+end
+
+local guard_group = vim.api.nvim_create_augroup("config_jdtls_buffer_guard", { clear = true })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = guard_group,
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client or client.name ~= "jdtls" then
+			return
+		end
+
+		local filetype = vim.bo[args.buf].filetype
+		if filetype ~= "" and filetype ~= "java" and not is_jdt_resource(args.buf) then
+			local buf = args.buf
+			local client_id = client.id
+
+			vim.schedule(function()
+				if vim.api.nvim_buf_is_valid(buf) then
+					vim.lsp.buf_detach_client(buf, client_id)
+				end
+			end)
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = guard_group,
+	callback = function(args)
+		if vim.bo[args.buf].filetype == "java" or is_jdt_resource(args.buf) then
+			return
+		end
+
+		for _, client in ipairs(vim.lsp.get_clients({ name = "jdtls", bufnr = args.buf })) do
+			vim.lsp.buf_detach_client(args.buf, client.id)
+		end
+	end,
+})
+
 local function mason_bundles(pattern)
 	return vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/" .. pattern, false, true)
 end
@@ -22,6 +75,10 @@ local function java_test_bundles()
 end
 
 function M.setup()
+	if not is_real_java_source(0) then
+		return
+	end
+
 	local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 	local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls-workspace/" .. project_name
 	local test_bundles = java_test_bundles()

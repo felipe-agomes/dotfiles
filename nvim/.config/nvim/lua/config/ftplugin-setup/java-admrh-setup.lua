@@ -405,6 +405,7 @@ function M.config(bufnr)
 					exclusions = {
 						"**/bin/**",
 						"**/.svn/**",
+						"xcape/**",
 					},
 					gradle = {
 						enabled = false,
