@@ -124,5 +124,15 @@ return {
 				end
 			end)
 		end, { desc = "Buffer: Pinned" })
+
+		vim.keymap.set("n", "<leader>btg", function()
+			local groups = require("bufferline.groups")
+			local id = groups.set_id({ id = vim.api.nvim_get_current_buf() })
+			local group = groups.get_all()[id]
+			if not group or group.name == "ungrouped" then
+				return vim.notify("Buffer is not in a group", vim.log.levels.INFO)
+			end
+			groups.action(group.name, "toggle")
+		end, { desc = "Buffer: Toggle group" })
 	end,
 }
