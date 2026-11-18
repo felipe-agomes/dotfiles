@@ -229,6 +229,31 @@ local function ensure_vendor()
 	return vendor
 end
 
+function M.classpath_mirror_dir()
+	return path_join(vim.fn.stdpath("data"), "jdtls-vendor", shadow_name .. "-classpath")
+end
+
+local function mirror_jar(root, jar)
+	local mirror = M.classpath_mirror_dir()
+	local target = path_join(mirror, jar:sub(#root + 2))
+	local source_stat = vim.uv.fs_stat(jar)
+	if not source_stat then
+		return jar
+	end
+
+	local target_stat = vim.uv.fs_stat(target)
+	if target_stat and target_stat.size == source_stat.size and target_stat.mtime.sec >= source_stat.mtime.sec then
+		return target
+	end
+
+	vim.fn.mkdir(vim.fn.fnamemodify(target, ":h"), "p")
+	if vim.uv.fs_copyfile(jar, target) then
+		return target
+	end
+
+	return jar
+end
+
 local function project_xml(root)
 	local lines = {
 		'<?xml version="1.0" encoding="UTF-8"?>',
@@ -289,7 +314,7 @@ local function classpath_xml(root, vendor)
 		for _, jar in ipairs(jars) do
 			if not seen[jar] then
 				seen[jar] = true
-				table.insert(lines, '  <classpathentry kind="lib" path="' .. xml_escape(jar) .. '"/>')
+				table.insert(lines, '  <classpathentry kind="lib" path="' .. xml_escape(mirror_jar(root, jar)) .. '"/>')
 			end
 		end
 	end
