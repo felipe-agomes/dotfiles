@@ -33,7 +33,7 @@ return {
 		options = {
 			themable = true,
 			diagnostics = "nvim_lsp",
-			diagnostics_update_on_event = true,
+			diagnostics_update_on_event = false,
 			diagnostics_indicator = function(count)
 				return "(" .. count .. ")"
 			end,
