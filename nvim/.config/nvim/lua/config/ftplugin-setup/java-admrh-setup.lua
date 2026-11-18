@@ -159,6 +159,10 @@ function M.shadow_dir()
 	return path_join(vim.fn.stdpath("cache"), "jdtls-shadow", shadow_name)
 end
 
+function M.project_name()
+	return project_name
+end
+
 function M.data_dir()
 	return path_join(vim.fn.stdpath("cache"), "jdtls-workspace", shadow_name .. "-shadow")
 end

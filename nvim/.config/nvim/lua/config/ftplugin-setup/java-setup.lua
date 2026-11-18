@@ -104,6 +104,7 @@ function M.setup_dap()
 		name = dap_attach_name,
 		hostName = windows_host(),
 		port = 8787,
+		projectName = admrh.project_name(),
 		cwd = admrh.shadow_dir(),
 	})
 
@@ -168,7 +169,11 @@ function M.setup()
 		admrh.setup_command()
 	end
 
-	require("jdtls").start_or_attach(config)
+	require("jdtls").start_or_attach(config, {
+		dap = {
+			hotcodereplace = "auto",
+		},
+	})
 end
 
 return M
