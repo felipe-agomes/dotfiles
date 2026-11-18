@@ -4,6 +4,10 @@ return {
 		on_attach = function(bufnr)
 			local gitsigns = require("gitsigns")
 
+			if not vim.fs.root(bufnr, ".git") then
+				return false
+			end
+
 			local function map(mode, l, r, opts)
 				opts = opts or {}
 				opts.buffer = bufnr
