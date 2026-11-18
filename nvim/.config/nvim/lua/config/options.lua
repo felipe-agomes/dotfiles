@@ -15,6 +15,6 @@ vim.opt.mousemoveevent = true
 vim.opt.undofile = true
 vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
-vim.opt.updatetime = 300
+vim.opt.updatetime = 800
 vim.opt.timeoutlen = 300
 vim.opt.list = false
