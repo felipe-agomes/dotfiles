@@ -329,13 +329,19 @@ local function resource_prefs()
 	}, "\n") .. "\n"
 end
 
-function M.ensure_shadow(root)
+function M.ensure_shadow(root, force)
 	local shadow = M.shadow_dir()
 	local vendor = ensure_vendor()
+	local project = path_join(shadow, ".project")
+	local classpath = path_join(shadow, ".classpath")
+
+	if not force and exists(project) and exists(classpath) then
+		return shadow
+	end
 
 	vim.fn.mkdir(shadow, "p")
-	write_if_changed(path_join(shadow, ".project"), project_xml(root))
-	write_if_changed(path_join(shadow, ".classpath"), classpath_xml(root, vendor))
+	write_if_changed(project, project_xml(root))
+	write_if_changed(classpath, classpath_xml(root, vendor))
 	write_if_changed(path_join(shadow, ".settings", "org.eclipse.jdt.core.prefs"), jdt_prefs())
 	write_if_changed(path_join(shadow, ".settings", "org.eclipse.core.resources.prefs"), resource_prefs())
 
@@ -354,7 +360,9 @@ local function jdtls_cmd()
 			table.insert(cmd, "--java-executable")
 			table.insert(cmd, path_join(java, "bin", "java"))
 		end
-		table.insert(cmd, "--jvm-arg=-Xmx2g")
+		table.insert(cmd, "--jvm-arg=-Xms256m")
+		table.insert(cmd, "--jvm-arg=-Xmx1536m")
+		table.insert(cmd, "--jvm-arg=-XX:MaxMetaspaceSize=512m")
 	end
 
 	table.insert(cmd, "-data")
@@ -437,7 +445,7 @@ function M.regenerate()
 	end, 100)
 
 	vim.fn.delete(M.data_dir(), "rf")
-	M.ensure_shadow(root)
+	M.ensure_shadow(root, true)
 	require("config.ftplugin-setup.java-setup").setup()
 	vim.notify("jdtls: workspace regenerado", vim.log.levels.INFO)
 end
