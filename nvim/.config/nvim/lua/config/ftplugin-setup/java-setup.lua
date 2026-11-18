@@ -74,6 +74,42 @@ local function java_test_bundles()
 	end, bundles)
 end
 
+local dap_attach_name = "WildFly 20 (remote 8787)"
+
+local function windows_host()
+	local route = vim.fn.system({ "ip", "-4", "route", "show", "default" })
+
+	return route:match("default via ([%d%.]+)") or "127.0.0.1"
+end
+
+function M.setup_dap()
+	local dap = require("dap")
+	local configurations = dap.configurations.java or {}
+
+	for _, configuration in ipairs(configurations) do
+		if configuration.name == dap_attach_name then
+			return
+		end
+	end
+
+	require("jdtls").setup_dap({ hotcodereplace = "auto" })
+
+	if dap.providers and dap.providers.configs then
+		dap.providers.configs["jdtls"] = nil
+	end
+
+	table.insert(configurations, {
+		type = "java",
+		request = "attach",
+		name = dap_attach_name,
+		hostName = windows_host(),
+		port = 8787,
+		cwd = admrh.shadow_dir(),
+	})
+
+	dap.configurations.java = configurations
+end
+
 function M.setup()
 	if not is_real_java_source(0) then
 		return
@@ -108,6 +144,7 @@ function M.setup()
 
 			if admrh_config then
 				admrh.on_attach(client)
+				M.setup_dap()
 			end
 
 			if #test_bundles == 0 then
